@@ -1,0 +1,19 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Jay Nogueira">
+  <title>Jay Nogueira</title>
+  <!--
+    Served browser-tab favicon (Next file-based metadata convention). Transparent
+    background; the mark adapts to the browser-chrome color scheme via a media
+    query so it stays legible on both light and dark tab bars. Generated copy of
+    .docs/assets/brand/icon-source.svg — regenerate with `npm run icons:generate`.
+  -->
+  <style>
+    .mark { stroke: #1a1a1a; }
+    @media (prefers-color-scheme: dark) {
+      .mark { stroke: #fafafa; }
+    }
+  </style>
+  <g class="mark" fill="none" stroke-width="40" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M200 170 L200 315 Q200 345 170 345 Q140 345 140 318" />
+    <path d="M280 345 L280 170 L372 345 L372 170" />
+  </g>
+</svg>
