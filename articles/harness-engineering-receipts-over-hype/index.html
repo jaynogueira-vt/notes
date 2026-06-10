@@ -15,6 +15,7 @@
 </head>
 <body class="playfair_display_788cf017-module__UR335q__variable source_serif_4_1dcf62f-module__tdgqBa__variable inter_96c4af0c-module__Y9_Geq__variable antialiased">
 <div class="bg-background text-foreground flex min-h-screen flex-col">
+<a href="#main-content" class="bg-background text-foreground focus-visible:ring-ring sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-3 focus:ring-2 focus:outline-none">Skip to content</a>
 <header class="border-border bg-background sticky top-0 z-50 w-full border-b">
 <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
 <a class="focus-visible:ring-ring inline-flex min-h-11 items-center font-sans text-sm font-semibold tracking-[0.22em] uppercase focus-visible:ring-2 focus-visible:outline-none" href="../../index.html"><span>Jay Nogueira</span></a>
@@ -87,6 +88,54 @@
   document.addEventListener("click",function(e){if(pop&&!pop.contains(e.target))close();});
   document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});
   window.addEventListener("scroll",function(){if(pop&&!fine)return;},{passive:true});
+})();
+</script>
+
+<script>
+(function(){
+  var links=[].slice.call(document.querySelectorAll('nav[aria-label="On this page"] a[href^="#"]'));
+  if(!links.length)return;
+  var ids=[],seen={};
+  links.forEach(function(a){
+    var id=decodeURIComponent(a.getAttribute("href").slice(1));
+    a.setAttribute("data-toc-id",id);
+    if(!seen[id]){seen[id]=true;ids.push(id);}
+    a.addEventListener("click",function(){var h=document.getElementById(id);if(h){h.setAttribute("tabindex","-1");h.focus({preventScroll:true});}});
+  });
+  var headings=ids.map(function(id){return document.getElementById(id);}).filter(Boolean);
+  if(!headings.length)return;
+  var ACTIVE=["text-foreground","font-semibold"],IDLE=["text-muted-foreground","hover:text-accent"];
+  var current=null;
+  function setActive(id){
+    if(id===current)return;
+    current=id;
+    links.forEach(function(a){
+      var on=a.getAttribute("data-toc-id")===id;
+      if(on){a.setAttribute("aria-current","true");IDLE.forEach(function(c){a.classList.remove(c);});ACTIVE.forEach(function(c){a.classList.add(c);});}
+      else{a.removeAttribute("aria-current");ACTIVE.forEach(function(c){a.classList.remove(c);});IDLE.forEach(function(c){a.classList.add(c);});}
+    });
+  }
+  function update(){
+    var band=window.innerHeight*0.3;
+    var pick=null;
+    for(var i=0;i<headings.length;i++){
+      var r=headings[i].getBoundingClientRect();
+      if(r.top<band&&r.bottom>0){pick=headings[i].id;break;}
+    }
+    if(!pick){
+      // nothing in the band: use the last heading already scrolled past, if any
+      for(var j=headings.length-1;j>=0;j--){
+        if(headings[j].getBoundingClientRect().top<band){pick=headings[j].id;break;}
+      }
+    }
+    if(pick)setActive(pick);
+  }
+  var ticking=false;
+  function onScroll(){if(!ticking){ticking=true;requestAnimationFrame(function(){ticking=false;update();});}}
+  window.addEventListener("scroll",onScroll,{passive:true});
+  window.addEventListener("resize",onScroll,{passive:true});
+  var hash=window.location.hash.slice(1);
+  if(hash&&seen[hash])setActive(hash);else update();
 })();
 </script>
 </body>
