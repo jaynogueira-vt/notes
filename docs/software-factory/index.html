@@ -136,15 +136,19 @@
   <div class="wrap">
     <p class="kicker">Proposal · Architecture</p>
     <h1 class="font-display" style="font-weight:400;font-size:clamp(2.4rem,6vw,4rem);line-height:1.08;margin:.6rem 0 0">The Software Factory, designed for change</h1>
-    <p class="lead" style="margin-top:1.1rem">An org-wide platform that turns engineering work into reviewed, merge-ready pull requests, architected so every layer is best-of-breed and replaceable as the AI landscape shifts underneath it.</p>
+    <p class="lead" style="margin-top:1.1rem">I'm proposing we build an org-wide software factory: one platform that turns our engineering work into reviewed, merge-ready pull requests, architected so every layer stays best-of-breed and replaceable as the AI landscape shifts underneath us. This document is my recommendation, the build-versus-buy call I'd make for each layer, and what I'm asking leadership to decide.</p>
     <div class="meta">
-      <span>Author: <b>Jay Nogueira</b></span>
+      <span>From: <b>Jay Nogueira</b></span>
+      <span>To: <b>Engineering leadership</b></span>
       <span>Status: <span class="draft">Draft · for discussion</span></span>
-      <span>Theme: <b>Harness engineering</b></span>
+    </div>
+    <div class="call" style="margin-top:1.4rem">
+      <h4>What I'm asking for</h4>
+      <p>Approve the contract-first hybrid architecture in this document: a control plane we own, a multi-vendor swap plane for the fast-moving AI layers, and the staged rollout below. Concretely, I want a green light to run Phase 0 and Phase 1 with one team and bring back real merge-rate data before we commit further.</p>
     </div>
     <div class="toc">
-      <a href="#thesis">Thesis</a>
-      <a href="#great">What makes it great</a>
+      <a href="#thesis">Why now</a>
+      <a href="#great">The bar</a>
       <a href="#layers">The 9 layers</a>
       <a href="#flow">End-to-end flow</a>
       <a href="#swap">The swap plane</a>
@@ -161,12 +165,12 @@
 <!-- THESIS -->
 <section id="thesis">
   <div class="wrap">
-    <p class="kicker">01 · Thesis</p>
-    <h2 class="sec">A great factory is defined by its seams, not its machines</h2>
-    <p class="lead">The components of an AI software factory (the coding agent, the model, the sandbox) are the fastest-depreciating assets in the stack. A frontier coding agent has a useful shelf life measured in quarters. The durable asset is not any one component: it is the set of stable contracts between layers that let you replace any component without re-architecting the line. Optimize for that, and "build vs buy" stops being a one-time bet and becomes a per-layer, reversible decision you can re-make every quarter.</p>
+    <p class="kicker">01 · Why this, why now</p>
+    <h2 class="sec">We should design for change, because the AI layer changes constantly</h2>
+    <p class="lead">My core argument is this: the components everyone fixates on (the coding agent, the model, the sandbox) are the fastest-depreciating assets we'd own. A frontier coding agent is useful for a few quarters before something better ships. So I don't want us to bet the platform on any one of them. I want us to own the stable contracts between layers and treat the components as replaceable parts behind those contracts. Do that, and build-versus-buy stops being a one-time bet and becomes a per-layer decision we can re-make every quarter without re-architecting anything.</p>
     <div class="call">
-      <h4>The design principle that drives everything below</h4>
-      <p>Treat the factory as a set of <span class="em">stations connected by versioned contracts</span>. Own the contracts and the org-specific stations; source every commodity station from the best vendor available today and swap it the moment a better one ships. The factory is the contracts; the agents are interchangeable parts.</p>
+      <h4>The principle I'm designing around</h4>
+      <p>Build and own the contracts and the org-specific stations; source every commodity station from the best vendor available today and swap it when a better one ships. That single discipline is what lets the platform survive a market that reshuffles every few months.</p>
     </div>
     <div class="grid g3">
       <div class="card"><div class="ct">Constraint</div><h4>The AI layer churns fast</h4><p>The best coding agent, the best model, and the best sandbox each change on a months-long cadence. Any architecture that hard-wires one of them is obsolete on arrival.</p></div>
@@ -179,9 +183,9 @@
 <!-- GREAT -->
 <section id="great">
   <div class="wrap">
-    <p class="kicker">02 · First principles</p>
-    <h2 class="sec">What makes a software factory great</h2>
-    <p class="lead">A "software factory" borrows the discipline of manufacturing: a standardized line, repeatable stations, inspection at every step, and full traceability. Translated to autonomous software delivery and modern platform engineering, eight properties separate a real factory from a pile of scripts.</p>
+    <p class="kicker">02 · The bar</p>
+    <h2 class="sec">The eight properties I'm holding this platform to</h2>
+    <p class="lead">"Software factory" borrows the discipline of manufacturing: a standardized line, repeatable stations, inspection at every step, and full traceability. These are the eight properties I want us to be judged against. If the thing we build doesn't have all eight, it's a pile of scripts, not a platform, and I don't want us to ship it as one.</p>
     <div class="plist">
       <div class="pitem"><span class="pn">01</span><div><h4>Standardized line, stable stations</h4><p>Work flows through the same defined stations every time. Each station exposes a versioned contract, so what happens inside it can change without disturbing its neighbours.</p></div></div>
       <div class="pitem"><span class="pn">02</span><div><h4>Independent, replaceable stations</h4><p>The defining property. Any station (agent, model, sandbox, orchestrator) can be swapped for a better one, or run in parallel, with no change to the rest of the line. This is what survives the AI churn.</p></div></div>
@@ -193,8 +197,8 @@
       <div class="pitem"><span class="pn">08</span><div><h4>Human authority at the gate</h4><p>The factory prepares and routes; humans approve and merge. Autonomous merge is a separate, later, evidence-gated decision, never the default.</p></div></div>
     </div>
     <div class="call human">
-      <h4>The honest caveat that shapes the gates</h4>
-      <p>The most rigorous public study to date (METR, 2025) found experienced developers were measurably slower with AI tooling while believing they were faster, and agent-authored PRs shift load onto reviewers. A great factory treats agent output as a <span class="em">draft to be inspected</span>, designs the reviewer experience as a first-class station, and measures yield honestly. Optimism is not an architecture.</p>
+      <h4>Why I keep a human at the gate</h4>
+      <p>I'm not assuming agents are net-positive yet. The most rigorous public study to date (METR, 2025) found experienced developers were measurably slower with AI tooling while believing they were faster, and agent-authored PRs shift load onto reviewers. So I'm treating agent output as a draft to be inspected, making the reviewer experience a first-class part we build, and measuring real yield before we trust it. That's why merge stays human in this proposal, full stop.</p>
     </div>
   </div>
 </section>
@@ -459,9 +463,9 @@
 <!-- RECOMMENDATION -->
 <section id="recommendation">
   <div class="wrap">
-    <p class="kicker">08 · Recommendation</p>
-    <h2 class="sec">An owned control plane over a multi-vendor swap plane</h2>
-    <p class="lead">Build a thin, durable control plane that the org owns end to end: intake and policy, the reviewer experience inside org identity, the gates, the eval harness, and the knowledge layer. Run it on a managed cloud runtime. Treat the implementer, the sandbox, and the models as best-of-breed plug-ins behind contracts, run several at once, and let measured yield decide which wins each work-item class. Buy the commodity, build the moat, and keep every boundary swappable.</p>
+    <p class="kicker">08 · My recommendation</p>
+    <h2 class="sec">Build an owned control plane over a multi-vendor swap plane</h2>
+    <p class="lead">My recommendation is that we build a thin, durable control plane we own end to end: intake and policy, the reviewer experience inside our own identity, the gates, the eval harness, and the knowledge layer. We run it on a managed cloud runtime. We treat the implementer, the sandbox, and the models as best-of-breed plug-ins behind contracts, run several at once, and let measured yield decide which one wins each class of work. Buy the commodity, build the moat we're actually good at, and keep every boundary swappable. I'd not pursue a single-vendor factory or a pure in-house build, for the reasons in the build-versus-buy and scorecard sections above.</p>
     <div class="grid g2">
       <div class="card"><div class="ct">The org builds · the moat</div><h4>Control plane + knowledge + gates</h4><p>Intake and scope policy, the authenticated reviewer surface, the quality + eval gates, and retrieval over org systems. Durable, org-specific, and the instruments by which every other choice is made. They do not churn with the model of the month.</p></div>
       <div class="card"><div class="ct">The org buys / bundles · the commodity</div><h4>Agents + sandbox + models + runtime</h4><p>Multiple vendor implementers behind one contract, a managed agent runtime, sandbox + model bundled with the agent, delivery adapters, and live tools over MCP. Cloud-native, scalable, replaced on the market's cadence.</p></div>
@@ -476,9 +480,9 @@
 <!-- SCORECARD -->
 <section id="scorecard">
   <div class="wrap">
-    <p class="kicker">09 · Decision</p>
-    <h2 class="sec">Scorecard against the requirements</h2>
-    <p class="lead">Three archetypes scored against the requirements set for this platform. Scores are a structured judgement to frame the decision, not a measurement. The contract-first hybrid wins precisely on the two axes ranked highest: independence and ease of changing layers.</p>
+    <p class="kicker">09 · How I weighed it</p>
+    <h2 class="sec">Scorecard against our requirements</h2>
+    <p class="lead">Here's how I score the three options against the requirements we care about. These are my judgements, not measurements, but the conclusion is clear: the contract-first hybrid is the only one that wins on the two things I weight highest, independence and ease of changing layers. That's why it's my recommendation.</p>
     <div class="tbl">
       <table>
         <thead><tr><th style="width:34%">Requirement</th><th>Single vendor factory</th><th>Pure in-house build</th><th>Contract-first hybrid</th></tr></thead>
@@ -494,7 +498,7 @@
         </tbody>
       </table>
     </div>
-    <p class="src">Single-vendor wins on time-to-value but structurally loses on independence and changeability. Pure in-house wins on control but cannot stay best-of-breed across the fast-churning layers. The contract-first hybrid is the only archetype that scores well on all eight, because it buys the commodity, builds the moat, and makes every boundary reversible.</p>
+    <p class="src">Single-vendor wins on time-to-value but loses on independence and changeability, which is where I'm not willing to compromise. Pure in-house wins on control but can't stay best-of-breed across the fast-churning layers. The contract-first hybrid is the only option that holds up across all eight, because it buys the commodity, builds the moat, and keeps every boundary reversible.</p>
   </div>
 </section>
 
@@ -516,8 +520,8 @@
 <!-- RISKS -->
 <section id="risks">
   <div class="wrap">
-    <p class="kicker">11 · Honest risks</p>
-    <h2 class="sec">What could make this the wrong call</h2>
+    <p class="kicker">11 · Where I could be wrong</p>
+    <h2 class="sec">The risks I'm watching, and how I'd handle them</h2>
     <ul class="clean">
       <li><b>Contract churn.</b> If the swap-plane contracts are wrong, every adapter leaks and the independence promise collapses. Mitigation: keep contracts minimal, version them, and prove them with two real vendors in Phase 1 before committing.</li>
       <li><b>Bespoke-orchestrator creep.</b> Running orchestration on a managed runtime instead of a workflow engine means the org owns the workflow state machine. If the line grows complex (parallel fan-out, compensation / rollback, replay-for-compliance), that hand-rolled layer becomes the thing a durable-workflow engine would have given for free. Mitigation: keep the orchestration contract minimal so the engine drops in behind it the moment the hand-rolled version strains.</li>
@@ -538,7 +542,7 @@
 <div class="mx-auto grid max-w-7xl gap-10 px-6 py-12 lg:px-8">
 <div>
 <p class="font-sans text-xs font-semibold tracking-[0.22em] uppercase">Jay Nogueira</p>
-<p class="text-primary-foreground/80 mt-4 max-w-2xl font-serif text-lg leading-relaxed">A reference architecture for an org-wide software factory, designed so every layer stays best-of-breed as the AI landscape shifts. Draft for discussion.</p>
+<p class="text-primary-foreground/80 mt-4 max-w-2xl font-serif text-lg leading-relaxed">My proposal for an org-wide software factory, designed so every layer stays best-of-breed as the AI landscape shifts. Draft for discussion.</p>
 <p class="text-primary-foreground/70 mt-6 font-sans text-xs tracking-[0.14em] uppercase">&copy; 2026 Jay Nogueira. All rights reserved.</p>
 </div>
 </div>
