@@ -147,7 +147,9 @@
       <p>Approve the contract-first hybrid architecture described here: an organization-owned control plane, a multi-vendor swap plane for the fast-moving AI layers, and the staged rollout below. Specifically, authorize Phase 0 and Phase 1 with a single team to produce real merge-rate data before any further commitment.</p>
     </div>
     <div class="toc">
-      <a href="#thesis">Why now</a>
+      <a href="#problem">The problem</a>
+      <a href="#what">What it is</a>
+      <a href="#thesis">Design for change</a>
       <a href="#great">The bar</a>
       <a href="#layers">The 9 layers</a>
       <a href="#flow">End-to-end flow</a>
@@ -162,11 +164,56 @@
   </div>
 </section>
 
-<!-- THESIS -->
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="wrap">
+    <p class="kicker">01 · The problem</p>
+    <h2 class="sec">Routine engineering work is bounded by headcount, and AI tooling is unmanaged</h2>
+    <p class="lead">A large share of engineering throughput goes into changes that are well understood but still fully manual: bug fixes with a clear reproduction, dependency and framework upgrades, feature-flag removals, small well-specified features, and mechanical refactors. This work is necessary and rarely difficult, yet it scales only with the number of engineer-hours available to write it and shepherd it through review. More capacity means more headcount.</p>
+    <p>At the same time, AI coding tools have become individually capable but are adopted ad hoc, one engineer at a time, with no shared standards for isolation, review, evaluation, or audit. At the organization level this is neither safe nor measurable: there is no consistent quality gate, no record of what a tool changed or why, and no data on whether any of it improves delivery. The two problems compound. The work that is most automatable is still done by hand, while the automation that does exist runs outside any controls.</p>
+    <div class="call">
+      <h4>What this proposal solves</h4>
+      <p>Turn that class of work into a standardized, inspected, auditable production line, and put AI tooling behind organization-owned controls rather than individual discretion. One line, one quality gate, one audit trail, available to every team.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT IT IS -->
+<section id="what">
+  <div class="wrap">
+    <p class="kicker">02 · What it is</p>
+    <h2 class="sec">A production line that turns a unit of work into a reviewed, merge-ready pull request</h2>
+    <p class="lead">The factory accepts a unit of work (a ticket, a flag to remove, a dependency to bump) and normalizes it into a structured work item with explicit scope and a risk class. A single run then proceeds end to end, and a person makes the final call.</p>
+    <div class="plist">
+      <div class="pitem"><span class="pn">1</span><div><h4>Intake</h4><p>A ticket or request becomes a structured work item: what to change, where, the acceptance criteria, and how risky it is.</p></div></div>
+      <div class="pitem"><span class="pn">2</span><div><h4>Build</h4><p>An agent plans the change and writes it in an isolated, ephemeral workspace with scoped, short-lived credentials.</p></div></div>
+      <div class="pitem"><span class="pn">3</span><div><h4>Inspect</h4><p>The full quality suite runs against the result: tests, lint, type-check, security scan, build. Nothing proceeds on a failed gate.</p></div></div>
+      <div class="pitem"><span class="pn">4</span><div><h4>Deliver</h4><p>The system opens a pull request carrying the diff and the evidence of every check, and links it back to the originating ticket.</p></div></div>
+      <div class="pitem"><span class="pn">5</span><div><h4>Review and merge</h4><p>A human reviewer approves, requests changes, or rejects. On approval, a human merges. The factory prepares and routes; it never merges on its own.</p></div></div>
+    </div>
+    <p>Every step (the plan, the tool calls, the diffs, the decisions, the retries) is recorded, so any run can be reconstructed from work item to merged code. The detailed station-by-station architecture is in the second half of this document; the end-to-end flow diagram there traces one run through every layer.</p>
+    <div class="grid g3">
+      <div class="card"><div class="ct">What changes</div><h4>A draft, not a blank editor</h4><p>Routine work arrives as a pre-validated pull request to review, instead of a task to write from scratch.</p></div>
+      <div class="card"><div class="ct">What changes</div><h4>Throughput beyond headcount</h4><p>This class of work stops scaling purely with engineer-hours. Engineering time shifts to reviewing and deciding.</p></div>
+      <div class="card"><div class="ct">What changes</div><h4>One gate, full audit</h4><p>Every AI-produced change runs through the same controls and leaves a complete record, instead of ad-hoc tooling with none.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PART II DIVIDER -->
+<section id="howbuild" style="text-align:center">
+  <div class="wrap">
+    <p class="kicker">Part II</p>
+    <h2 class="sec" style="margin-top:.3rem">The recommended architecture</h2>
+    <p class="lead" style="margin:0 auto">The rest of this document is how the line is built: the design principle, the nine layers and their contracts, the build-versus-buy decision for each, the vendor landscape, and the staged rollout. The aim throughout is a line that stays best-of-breed as the AI tools underneath it change.</p>
+  </div>
+</section>
+
+<!-- DESIGN FOR CHANGE -->
 <section id="thesis">
   <div class="wrap">
-    <p class="kicker">01 · Why now</p>
-    <h2 class="sec">Design for change, because the AI layer changes constantly</h2>
+    <p class="kicker">03 · Design for change</p>
+    <h2 class="sec">The line is built to be replaced, because the AI layer changes constantly</h2>
     <p class="lead">The central argument is straightforward: the components that draw the most attention (the coding agent, the model, the sandbox) are the fastest-depreciating assets in the stack. A frontier coding agent stays useful for a few quarters before something better ships. The platform should therefore not be bet on any single one of them. The durable approach is to own the stable contracts between layers and treat the components as replaceable parts behind those contracts. With that in place, build-versus-buy stops being a one-time bet and becomes a per-layer decision that can be re-made every quarter without re-architecting the line.</p>
     <div class="call">
       <h4>The principle this proposal is built on</h4>
@@ -183,7 +230,7 @@
 <!-- GREAT -->
 <section id="great">
   <div class="wrap">
-    <p class="kicker">02 · The bar</p>
+    <p class="kicker">04 · The bar</p>
     <h2 class="sec">The eight properties this platform must hold to</h2>
     <p class="lead">"Software factory" borrows the discipline of manufacturing: a standardized line, repeatable stations, inspection at every step, and full traceability. The platform should be judged against the eight properties below. A system that does not meet all eight is a collection of scripts, not a platform, and should not ship as one.</p>
     <div class="plist">
@@ -206,7 +253,7 @@
 <!-- LAYERS -->
 <section id="layers">
   <div class="wrap">
-    <p class="kicker">03 · Architecture</p>
+    <p class="kicker">05 · Architecture</p>
     <h2 class="sec">Nine layers, each behind a stable contract</h2>
     <p class="lead">The architecture is a stack of nine functional layers plus four cross-cutting concerns. The column that matters most is the contract. As long as a replacement honours the contract, it drops in. The contract is the product; the implementation is disposable.</p>
     <div class="tbl">
@@ -232,7 +279,7 @@
 <!-- FLOW -->
 <section id="flow">
   <div class="wrap">
-    <p class="kicker">04 · The pipeline</p>
+    <p class="kicker">06 · The pipeline</p>
     <h2 class="sec">End-to-end flow: one work item, intake to merge</h2>
     <p class="lead">The same nine layers, traced as a single run with the concrete default tool named at every station. Colour marks who owns the station. The dashed loop is the fix cycle when a reviewer requests changes.</p>
     <div class="diagram">
@@ -380,7 +427,7 @@
 <!-- SWAP -->
 <section id="swap">
   <div class="wrap">
-    <p class="kicker">05 · The core idea</p>
+    <p class="kicker">07 · The core idea</p>
     <h2 class="sec">The swap plane: one contract, many vendors, decided by data</h2>
     <p class="lead">Layers 4 to 7 are where the AI world moves fastest, so they get the strongest contract discipline. The agent-execution contract (<code>solve(WorkItem, RepoRef) → RunResult</code>) allows several implementers to run behind one interface: route by work-item class, run them head-to-head on the same ticket, and let the eval harness select the winner. When a new frontier agent ships, adoption is a new adapter and an A/B run against the eval suite, not a re-architecture.</p>
     <div class="grid g3">
@@ -394,7 +441,7 @@
 <!-- BUILD/BUY -->
 <section id="buildbuy">
   <div class="wrap">
-    <p class="kicker">06 · The strategy</p>
+    <p class="kicker">08 · The strategy</p>
     <h2 class="sec">Build the moat, buy the commodity, contract everything</h2>
     <p class="lead">The build-versus-buy decision is made per layer, on one rule: build what is org-specific and durable; buy what is commodity and fast-moving; put a contract on every boundary so any decision is reversible. No internal team will out-build the frontier agent vendors on the implementer, and none should try. The organization is the only party that can build org-aware intake, knowledge, reviewer experience, and governance.</p>
     <div class="tbl">
@@ -427,7 +474,7 @@
 <!-- VENDORS -->
 <section id="vendors">
   <div class="wrap">
-    <p class="kicker">07 · Landscape</p>
+    <p class="kicker">09 · Landscape</p>
     <h2 class="sec">The current best-of-breed per swap-plane layer</h2>
     <p class="lead">A snapshot of credible options as of mid-2026, to populate the swap plane. The point is not to pick forever; it is to start with strong defaults behind contracts and re-evaluate every quarter against the eval harness. Capability claims are vendor-stated unless noted; treat them as a shortlist to validate, not as verified benchmarks.</p>
     <h3 class="sub">Agent execution (the implementer)</h3>
@@ -463,7 +510,7 @@
 <!-- RECOMMENDATION -->
 <section id="recommendation">
   <div class="wrap">
-    <p class="kicker">08 · Recommendation</p>
+    <p class="kicker">10 · Recommendation</p>
     <h2 class="sec">Build an owned control plane over a multi-vendor swap plane</h2>
     <p class="lead">The recommendation is to build a thin, durable control plane the organization owns end to end: intake and policy, the reviewer experience inside its own identity, the gates, the eval harness, and the knowledge layer, run on a managed cloud runtime. The implementer, the sandbox, and the models are treated as best-of-breed plug-ins behind contracts; several run at once, and measured yield decides which one wins each class of work. Buy the commodity, build the moat, and keep every boundary swappable. A single-vendor factory and a pure in-house build are both rejected, for the reasons set out in the build-versus-buy and scorecard sections above.</p>
     <div class="grid g2">
@@ -480,7 +527,7 @@
 <!-- SCORECARD -->
 <section id="scorecard">
   <div class="wrap">
-    <p class="kicker">09 · How it was weighed</p>
+    <p class="kicker">11 · How it was weighed</p>
     <h2 class="sec">Scorecard against the requirements</h2>
     <p class="lead">The three options below are scored against the requirements that matter for this platform. The scores are structured judgement, not measurement, but the conclusion is unambiguous: the contract-first hybrid is the only option that wins on the two requirements weighted highest, independence and ease of changing layers. That is why it is the recommendation.</p>
     <div class="tbl">
@@ -505,7 +552,7 @@
 <!-- ROLLOUT -->
 <section id="rollout">
   <div class="wrap">
-    <p class="kicker">10 · Sequencing</p>
+    <p class="kicker">12 · Sequencing</p>
     <h2 class="sec">Rollout, gated by evidence not calendar</h2>
     <p class="lead">Each phase ends in a gate that must be met before the next begins. Phases are illustrative sequencing, not committed dates; durations and capacity are intentionally left blank for planning.</p>
     <div>
@@ -520,7 +567,7 @@
 <!-- RISKS -->
 <section id="risks">
   <div class="wrap">
-    <p class="kicker">11 · Risks</p>
+    <p class="kicker">13 · Risks</p>
     <h2 class="sec">The risks, and how they are handled</h2>
     <ul class="clean">
       <li><b>Contract churn.</b> If the swap-plane contracts are wrong, every adapter leaks and the independence promise collapses. Mitigation: keep contracts minimal, version them, and prove them with two real vendors in Phase 1 before committing.</li>
