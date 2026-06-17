@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" data-scroll-behavior="smooth">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>The Software Factory, designed for change — Jay Nogueira</title>
+<meta name="description" content="An org-wide platform that turns engineering work into reviewed, merge-ready pull requests, architected so every layer is best-of-breed and replaceable as the AI landscape shifts underneath it."/>
+<meta name="author" content="Jay Nogueira"/>
+<meta property="og:title" content="The Software Factory, designed for change"/>
+<meta property="og:description" content="An org-wide platform for autonomous software delivery, designed so every layer is replaceable as the AI landscape shifts."/>
+<meta property="og:type" content="article"/>
+<meta property="og:url" content="https://jaynogueira-vt.github.io/articles/docs/software-factory/"/>
+<meta property="og:site_name" content="Jay Nogueira"/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="The Software Factory, designed for change"/>
+<meta name="twitter:description" content="An org-wide platform for autonomous software delivery, designed so every layer is replaceable."/>
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"/>
+<meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)"/>
+<link rel="icon" href="../../assets/icon.svg" type="image/svg+xml"/>
+<link rel="stylesheet" href="../../assets/fonts.css"/>
+<link rel="stylesheet" href="../../assets/site.css"/>
+<script>(function(){try{var t=localStorage.getItem("theme");var d=t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(d){document.documentElement.classList.add("dark");document.documentElement.style.colorScheme="dark"}else{document.documentElement.style.colorScheme="light"}}catch(e){}})();</script>
+<style>
+  /* Scoped doc styles — built only on the design-system tokens (light + dark adapt automatically) */
+  .doc{--c-build:#1f6feb;--c-buy:#0f8f86;--c-bundled:#737373;--c-hybrid:#b4690e;--c-human:#c2364b;}
+  .dark .doc{--c-build:#7c9cff;--c-buy:#43d6c4;--c-bundled:#a3a3a3;--c-hybrid:#ffb454;--c-human:#ff7a90;}
+  .doc{font-family:var(--font-serif),Georgia,serif;color:var(--foreground)}
+  .doc .wrap{max-width:62rem;margin:0 auto;padding:0 1.25rem}
+  .doc .kicker{font-family:var(--font-sans),sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
+  .doc h2.sec{font-family:var(--font-display),serif;font-weight:400;font-size:2.1rem;line-height:1.15;margin:.5rem 0 .4rem}
+  .doc h3.sub{font-family:var(--font-display),serif;font-weight:400;font-size:1.4rem;margin:2rem 0 .3rem}
+  .doc p.lead{font-size:1.18rem;line-height:1.7;color:var(--muted-foreground);max-width:48rem}
+  .doc p{font-size:1.05rem;line-height:1.7}
+  .doc section{padding:2.6rem 0;border-top:1px solid var(--border)}
+  .doc .mono{font-family:var(--font-mono),monospace;font-size:.86em}
+  .doc code{font-family:var(--font-mono),monospace;font-size:.84em;background:var(--secondary);border:1px solid var(--border);padding:.08em .4em}
+  .doc .em{color:var(--foreground);font-weight:600}
+
+  /* chips */
+  .chip{display:inline-block;font-family:var(--font-sans),sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:.18em .6em;white-space:nowrap;border:1px solid;line-height:1.5}
+  .chip.build{color:var(--c-build);border-color:var(--c-build)}
+  .chip.buy{color:var(--c-buy);border-color:var(--c-buy)}
+  .chip.bundled{color:var(--c-bundled);border-color:var(--c-bundled)}
+  .chip.hybrid{color:var(--c-hybrid);border-color:var(--c-hybrid)}
+  .chip.human{color:var(--c-human);border-color:var(--c-human)}
+
+  /* tables */
+  .doc .tbl{margin:1.6rem 0;border:1px solid var(--border);overflow-x:auto}
+  .doc table{width:100%;border-collapse:collapse;font-family:var(--font-sans),sans-serif;font-size:.86rem}
+  .doc th,.doc td{text-align:left;padding:.7rem .8rem;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5}
+  .doc thead th{background:var(--secondary);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted-foreground);font-weight:600}
+  .doc tbody tr:last-child td{border-bottom:none}
+  .doc td.layer{font-weight:700;color:var(--foreground)}
+  .doc td.cmono{font-family:var(--font-mono),monospace;font-size:.8rem}
+  @media(min-width:700px){.doc table{min-width:0}.doc .tbl table{min-width:640px}}
+
+  /* callouts */
+  .doc .call{border:1px solid var(--border);border-left:3px solid var(--accent);background:var(--card);padding:1rem 1.2rem;margin:1.4rem 0}
+  .doc .call.warn{border-left-color:var(--c-hybrid)}
+  .doc .call.human{border-left-color:var(--c-human)}
+  .doc .call h4{font-family:var(--font-sans),sans-serif;font-size:.95rem;font-weight:700;margin:0 0 .3rem}
+  .doc .call p{font-size:.98rem;margin:.25rem 0;color:var(--muted-foreground)}
+
+  /* cards grid */
+  .doc .grid{display:grid;gap:1rem;margin:1.6rem 0}
+  .doc .g3{grid-template-columns:repeat(3,1fr)}
+  .doc .g2{grid-template-columns:repeat(2,1fr)}
+  @media(max-width:760px){.doc .g3,.doc .g2{grid-template-columns:1fr}}
+  .doc .card{border:1px solid var(--border);background:var(--card);padding:1.2rem}
+  .doc .card .ct{font-family:var(--font-sans),sans-serif;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  .doc .card h4{font-family:var(--font-display),serif;font-weight:400;font-size:1.3rem;margin:.4rem 0 .35rem}
+  .doc .card p{font-size:.92rem;color:var(--muted-foreground);margin:0;line-height:1.6}
+
+  /* principle list */
+  .doc .plist{display:grid;gap:.6rem;margin:1.4rem 0}
+  .doc .pitem{display:flex;gap:.9rem;border:1px solid var(--border);background:var(--card);padding:.85rem 1rem}
+  .doc .pitem .pn{font-family:var(--font-mono),monospace;font-weight:700;color:var(--accent);font-size:.95rem;min-width:1.6rem}
+  .doc .pitem h4{font-family:var(--font-sans),sans-serif;font-size:.98rem;font-weight:700;margin:0 0 .15rem}
+  .doc .pitem p{font-size:.92rem;color:var(--muted-foreground);margin:0;line-height:1.55}
+
+  /* diagrams */
+  .doc .diagram{margin:1.8rem 0;border:1px solid var(--border);background:var(--card);padding:1.4rem 1rem}
+  .doc .diagram svg{width:100%;height:auto;display:block}
+  .doc .legend{display:flex;flex-wrap:wrap;gap:.5rem 1.3rem;margin-top:1rem;font-family:var(--font-sans),sans-serif;font-size:.74rem;color:var(--muted-foreground)}
+  .doc .legend span{display:inline-flex;align-items:center;gap:.45rem}
+  .doc .sw{width:.8rem;height:.8rem;display:inline-block}
+
+  /* score bars */
+  .score{display:inline-flex;gap:2px}
+  .score i{width:.55rem;height:.55rem;background:var(--border);display:inline-block}
+  .score i.on{background:var(--accent)}
+
+  /* timeline */
+  .doc .phase{display:grid;grid-template-columns:9rem 1fr;gap:1.3rem;padding:1.1rem 0;border-top:1px solid var(--border)}
+  .doc .phase:first-of-type{border-top:none}
+  .doc .phase .pl{font-family:var(--font-sans),sans-serif;font-size:.8rem;color:var(--accent);font-weight:600}
+  .doc .phase .pl .gate{display:block;color:var(--muted-foreground);font-size:.7rem;margin-top:.4rem;font-weight:400;letter-spacing:.02em}
+  .doc .phase h4{font-family:var(--font-display),serif;font-weight:400;font-size:1.15rem;margin:0 0 .3rem}
+  .doc .phase ul{margin:.2rem 0 0;padding-left:1.1rem;color:var(--muted-foreground);font-size:.95rem}
+  .doc .phase li{margin:.2rem 0;line-height:1.55}
+  @media(max-width:700px){.doc .phase{grid-template-columns:1fr;gap:.4rem}}
+
+  .doc ul.clean{list-style:none;padding:0;margin:1rem 0 0}
+  .doc ul.clean li{padding:.6rem 0 .6rem 1.4rem;position:relative;color:var(--muted-foreground);border-bottom:1px solid var(--border);font-size:1rem;line-height:1.6}
+  .doc ul.clean li:last-child{border-bottom:none}
+  .doc ul.clean li::before{content:"";position:absolute;left:.1rem;top:1rem;width:.45rem;height:.45rem;background:var(--accent)}
+  .doc ul.clean li b{color:var(--foreground)}
+  .doc .toc{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.6rem}
+  .doc .toc a{font-family:var(--font-sans),sans-serif;font-size:.74rem;color:var(--muted-foreground);border:1px solid var(--border);padding:.35rem .7rem}
+  .doc .toc a:hover{border-color:var(--accent);color:var(--foreground)}
+  .doc .src{font-size:.9rem;color:var(--muted-foreground)}
+  .doc .src a{color:var(--accent)}
+  .doc .draft{font-family:var(--font-sans),sans-serif;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--c-hybrid);border:1px solid var(--c-hybrid);padding:.2em .6em}
+  .doc .meta{display:flex;flex-wrap:wrap;gap:.5rem 1.6rem;margin-top:1.4rem;font-family:var(--font-sans),sans-serif;font-size:.82rem;color:var(--muted-foreground)}
+  .doc .meta b{color:var(--foreground);font-weight:600}
+</style>
+</head>
+<body class="playfair_display_788cf017-module__UR335q__variable source_serif_4_1dcf62f-module__tdgqBa__variable inter_96c4af0c-module__Y9_Geq__variable antialiased">
+<div class="bg-background text-foreground flex min-h-screen flex-col">
+<a href="#main-content" class="bg-background text-foreground focus-visible:ring-ring sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-3 focus:ring-2 focus:outline-none">Skip to content</a>
+<header class="border-border bg-background sticky top-0 z-50 w-full border-b">
+<div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
+<a class="focus-visible:ring-ring inline-flex min-h-11 items-center font-sans text-sm font-semibold tracking-[0.22em] uppercase focus-visible:ring-2 focus-visible:outline-none" href="../../index.html"><span>Jay Nogueira</span></a>
+<div class="flex items-center gap-2">
+<a class="hover:text-foreground text-muted-foreground focus-visible:ring-ring inline-flex min-h-11 shrink-0 items-center px-3 font-sans text-xs font-semibold tracking-[0.12em] uppercase transition-colors focus-visible:ring-2 focus-visible:outline-none" href="../../articles/index.html">Articles</a>
+<a class="text-foreground focus-visible:ring-ring inline-flex min-h-11 shrink-0 items-center px-3 font-sans text-xs font-semibold tracking-[0.12em] uppercase focus-visible:ring-2 focus-visible:outline-none" href="../index.html">Docs</a>
+<button type="button" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme" class="border-border bg-background text-foreground hover:bg-secondary hover:text-foreground focus-visible:ring-ring relative inline-flex h-11 w-11 items-center justify-center rounded-md border transition-colors focus-visible:ring-2 focus-visible:outline-none"><svg class="h-4 w-4 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><svg class="hidden h-4 w-4 dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></button>
+</div>
+</div>
+</header>
+
+<main id="main-content" class="flex-1 doc" tabindex="-1">
+
+<!-- HERO -->
+<section style="border-top:none" class="!pt-12">
+  <div class="wrap">
+    <p class="kicker">Proposal · Architecture</p>
+    <h1 class="font-display" style="font-weight:400;font-size:clamp(2.4rem,6vw,4rem);line-height:1.08;margin:.6rem 0 0">The Software Factory, designed for change</h1>
+    <p class="lead" style="margin-top:1.1rem">An org-wide platform that turns engineering work into reviewed, merge-ready pull requests, architected so every layer is best-of-breed and replaceable as the AI landscape shifts underneath it.</p>
+    <div class="meta">
+      <span>Author: <b>Jay Nogueira</b></span>
+      <span>Status: <span class="draft">Draft · for discussion</span></span>
+      <span>Theme: <b>Harness engineering</b></span>
+    </div>
+    <div class="toc">
+      <a href="#thesis">Thesis</a>
+      <a href="#great">What makes it great</a>
+      <a href="#layers">The 9 layers</a>
+      <a href="#flow">End-to-end flow</a>
+      <a href="#swap">The swap plane</a>
+      <a href="#buildbuy">Build / Buy / Hybrid</a>
+      <a href="#vendors">Landscape</a>
+      <a href="#recommendation">Recommendation</a>
+      <a href="#scorecard">Scorecard</a>
+      <a href="#rollout">Rollout</a>
+      <a href="#risks">Risks</a>
+    </div>
+  </div>
+</section>
+
+<!-- THESIS -->
+<section id="thesis">
+  <div class="wrap">
+    <p class="kicker">01 · Thesis</p>
+    <h2 class="sec">A great factory is defined by its seams, not its machines</h2>
+    <p class="lead">The components of an AI software factory (the coding agent, the model, the sandbox) are the fastest-depreciating assets in the stack. A frontier coding agent has a useful shelf life measured in quarters. The durable asset is not any one component: it is the set of stable contracts between layers that let you replace any component without re-architecting the line. Optimize for that, and "build vs buy" stops being a one-time bet and becomes a per-layer, reversible decision you can re-make every quarter.</p>
+    <div class="call">
+      <h4>The design principle that drives everything below</h4>
+      <p>Treat the factory as a set of <span class="em">stations connected by versioned contracts</span>. Own the contracts and the org-specific stations; source every commodity station from the best vendor available today and swap it the moment a better one ships. The factory is the contracts; the agents are interchangeable parts.</p>
+    </div>
+    <div class="grid g3">
+      <div class="card"><div class="ct">Constraint</div><h4>The AI layer churns fast</h4><p>The best coding agent, the best model, and the best sandbox each change on a months-long cadence. Any architecture that hard-wires one of them is obsolete on arrival.</p></div>
+      <div class="card"><div class="ct">Requirement</div><h4>Org-wide and serious</h4><p>This must serve every team with isolation, governance, observability, and SLAs. Not a trial, not a single-team script. Professional infrastructure.</p></div>
+      <div class="card"><div class="ct">Objective</div><h4>Best, not cheapest</h4><p>The selection criterion is engineering excellence and long-horizon optionality, not the lowest bill or the shortest path. Optionality is the feature being purchased.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- GREAT -->
+<section id="great">
+  <div class="wrap">
+    <p class="kicker">02 · First principles</p>
+    <h2 class="sec">What makes a software factory great</h2>
+    <p class="lead">A "software factory" borrows the discipline of manufacturing: a standardized line, repeatable stations, inspection at every step, and full traceability. Translated to autonomous software delivery and modern platform engineering, eight properties separate a real factory from a pile of scripts.</p>
+    <div class="plist">
+      <div class="pitem"><span class="pn">01</span><div><h4>Standardized line, stable stations</h4><p>Work flows through the same defined stations every time. Each station exposes a versioned contract, so what happens inside it can change without disturbing its neighbours.</p></div></div>
+      <div class="pitem"><span class="pn">02</span><div><h4>Independent, replaceable stations</h4><p>The defining property. Any station (agent, model, sandbox, orchestrator) can be swapped for a better one, or run in parallel, with no change to the rest of the line. This is what survives the AI churn.</p></div></div>
+      <div class="pitem"><span class="pn">03</span><div><h4>Golden paths and self-service</h4><p>Teams onboard by configuration, not by forking infrastructure. A paved road with sensible defaults; deviation is possible but not required.</p></div></div>
+      <div class="pitem"><span class="pn">04</span><div><h4>Inspection at every station</h4><p>Tests, lint, type, security, and build gate every run. Above that, an offline evaluation harness measures agent yield so component swaps are decided on data, not vibes.</p></div></div>
+      <div class="pitem"><span class="pn">05</span><div><h4>Full traceability</h4><p>Every plan, tool call, diff, decision, retry, and failure is reconstructable. The factory equivalent of a requirements-traceability matrix: from work item to merged code, end to end.</p></div></div>
+      <div class="pitem"><span class="pn">06</span><div><h4>Bounded blast radius</h4><p>Per-run isolation, least-privilege and short-lived credentials, network egress policy, per-team namespaces. One run can never harm another team or production.</p></div></div>
+      <div class="pitem"><span class="pn">07</span><div><h4>Measured throughput and yield</h4><p>Cycle time, merge rate by work-item class, cost per merged PR, review burden. A factory you cannot measure is a factory you cannot improve or defend.</p></div></div>
+      <div class="pitem"><span class="pn">08</span><div><h4>Human authority at the gate</h4><p>The factory prepares and routes; humans approve and merge. Autonomous merge is a separate, later, evidence-gated decision, never the default.</p></div></div>
+    </div>
+    <div class="call human">
+      <h4>The honest caveat that shapes the gates</h4>
+      <p>The most rigorous public study to date (METR, 2025) found experienced developers were measurably slower with AI tooling while believing they were faster, and agent-authored PRs shift load onto reviewers. A great factory treats agent output as a <span class="em">draft to be inspected</span>, designs the reviewer experience as a first-class station, and measures yield honestly. Optimism is not an architecture.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LAYERS -->
+<section id="layers">
+  <div class="wrap">
+    <p class="kicker">03 · Architecture</p>
+    <h2 class="sec">Nine layers, each behind a stable contract</h2>
+    <p class="lead">The architecture is a stack of nine functional layers plus four cross-cutting concerns. The column that matters most is the contract. As long as a replacement honours the contract, it drops in. The contract is the product; the implementation is disposable.</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Layer</th><th>Responsibility</th><th>Stable contract</th><th>Disposition</th></tr></thead>
+        <tbody>
+          <tr><td class="layer">1 · Intake &amp; Work Spec</td><td>Accept and normalize work from the tracker, chat, UI, API. Assign idempotency key, team namespace, scope policy.</td><td class="cmono">Normalized WorkItem schema</td><td><span class="chip build">Build</span></td></tr>
+          <tr><td class="layer">2 · Control Plane &amp; Reviewer UX</td><td>Org-authenticated reviewer surface; the server boundary to the runtime; aggregation and status.</td><td class="cmono">Run API + signals</td><td><span class="chip build">Build</span></td></tr>
+          <tr><td class="layer">3 · Orchestration Runtime</td><td>Durable state, retries, timers, human-wait-as-state, replay, per-team isolation.</td><td class="cmono">Workflow interface</td><td><span class="chip hybrid">Own contract</span></td></tr>
+          <tr><td class="layer">4 · Agent Execution</td><td>The implementer. Plans and writes the change, returns a PR reference plus evidence. Fastest churn.</td><td class="cmono">solve(WorkItem,Repo)→RunResult</td><td><span class="chip hybrid">Hybrid · multi-vendor</span></td></tr>
+          <tr><td class="layer">5 · Execution Sandbox</td><td>Isolated, ephemeral workspace: filesystem, scoped creds, egress policy, cleanup.</td><td class="cmono">Sandbox API</td><td><span class="chip bundled">Bundled</span></td></tr>
+          <tr><td class="layer">6 · Model Layer</td><td>Inference. The agent runtime brings its model; a governed gateway is a later add for cross-provider routing.</td><td class="cmono">OpenAI-compatible gateway</td><td><span class="chip bundled">Bundled</span></td></tr>
+          <tr><td class="layer">7 · Tools &amp; Knowledge</td><td>Live org facts (code, tickets, docs, telemetry, infra) + learned knowledge, without flooding context.</td><td class="cmono">MCP + retrieval interface</td><td><span class="chip hybrid">Hybrid</span></td></tr>
+          <tr><td class="layer">8 · Quality &amp; Eval Gates</td><td>Per-run gates (tests, lint, type, security, build) + offline eval harness for agent yield.</td><td class="cmono">GateResult + eval suite</td><td><span class="chip build">Build</span></td></tr>
+          <tr><td class="layer">9 · Integration &amp; Delivery</td><td>Act on the world: open PRs, update tickets, notify. Idempotent, auditable.</td><td class="cmono">Adapter interface</td><td><span class="chip buy">Buy/adapt</span></td></tr>
+          <tr><td class="layer">★ Human gate</td><td>Review and merge. The factory never merges autonomously in this proposal.</td><td class="cmono">approve / reject signal</td><td><span class="chip human">Human</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- FLOW -->
+<section id="flow">
+  <div class="wrap">
+    <p class="kicker">04 · The pipeline</p>
+    <h2 class="sec">End-to-end flow: one work item, intake to merge</h2>
+    <p class="lead">The same nine layers, traced as a single run with the concrete default tool named at every station. Colour marks who owns the station. The dashed loop is the fix cycle when a reviewer requests changes.</p>
+    <div class="diagram">
+      <svg viewBox="0 0 900 1015" role="img" aria-label="End-to-end flow from intake to merge">
+        <defs>
+          <marker id="fa" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="var(--accent)"/></marker>
+          <marker id="fl" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="var(--c-human)"/></marker>
+        </defs>
+        <text x="120" y="24" fill="var(--muted-foreground)" font-family="var(--font-mono),monospace" font-size="10.5" letter-spacing="2">ONE WORK ITEM · START → MERGE · DEFAULT STACK PER STATION</text>
+
+        <rect x="104" y="305" width="690" height="332" rx="0" fill="var(--c-buy)" fill-opacity="0.06" stroke="var(--c-buy)" stroke-opacity="0.4"/>
+        <text x="116" y="324" fill="var(--c-buy)" font-family="var(--font-mono),monospace" font-size="10" letter-spacing="1.2">SWAP PLANE · multi-vendor · choose by eval score · replace without re-architecture</text>
+
+        <g stroke="var(--accent)" stroke-width="1.8" opacity="0.6">
+          <line x1="450" y1="122" x2="450" y2="144" marker-end="url(#fa)"/>
+          <line x1="450" y1="206" x2="450" y2="228" marker-end="url(#fa)"/>
+          <line x1="450" y1="290" x2="450" y2="312" marker-end="url(#fa)"/>
+          <line x1="450" y1="374" x2="450" y2="396" marker-end="url(#fa)"/>
+          <line x1="450" y1="458" x2="450" y2="480" marker-end="url(#fa)"/>
+          <line x1="450" y1="542" x2="450" y2="564" marker-end="url(#fa)"/>
+          <line x1="450" y1="626" x2="450" y2="648" marker-end="url(#fa)"/>
+          <line x1="450" y1="710" x2="450" y2="732" marker-end="url(#fa)"/>
+          <line x1="450" y1="794" x2="450" y2="816" marker-end="url(#fa)"/>
+          <line x1="450" y1="878" x2="450" y2="900" marker-end="url(#fa)"/>
+        </g>
+        <path d="M794,848 H848 V338 H796" fill="none" stroke="var(--c-human)" stroke-width="1.8" stroke-dasharray="6 5" marker-end="url(#fl)" opacity="0.85"/>
+        <text x="864" y="600" fill="var(--c-human)" font-size="11" font-family="var(--font-sans),sans-serif" transform="rotate(90 864 600)">request changes → fix loop</text>
+
+        <g font-family="var(--font-sans),sans-serif">
+          <!-- node maker: rect + stripe + num + title + desc + tool + chip -->
+          <!-- 1 -->
+          <rect x="120" y="62" width="660" height="60" fill="var(--card)" stroke="var(--border)"/><rect x="120" y="62" width="5" height="60" fill="var(--c-build)"/>
+          <circle cx="148" cy="92" r="12" fill="var(--c-build)"/><text x="148" y="96" text-anchor="middle" fill="var(--background)" font-size="12" font-weight="700">1</text>
+          <text x="172" y="88" fill="var(--foreground)" font-size="13.5" font-weight="700">Intake &amp; Work Spec</text>
+          <text x="172" y="107" fill="var(--muted-foreground)" font-size="11">Ticket → normalized WorkItem (idempotency · scope · risk class)</text>
+          <text x="470" y="86" fill="var(--c-build)" font-size="10.5" font-family="var(--font-mono),monospace">intake service</text>
+          <text x="470" y="103" fill="var(--c-build)" font-size="10.5" font-family="var(--font-mono),monospace">tracker webhook · MCP</text>
+          <rect x="700" y="81" width="64" height="20" fill="none" stroke="var(--c-build)"/><text x="732" y="95" text-anchor="middle" fill="var(--c-build)" font-size="9" font-family="var(--font-mono),monospace">BUILD</text>
+
+          <!-- 2 -->
+          <rect x="120" y="146" width="660" height="60" fill="var(--card)" stroke="var(--border)"/><rect x="120" y="146" width="5" height="60" fill="var(--c-build)"/>
+          <circle cx="148" cy="176" r="12" fill="var(--c-build)"/><text x="148" y="180" text-anchor="middle" fill="var(--background)" font-size="12" font-weight="700">2</text>
+          <text x="172" y="172" fill="var(--foreground)" font-size="13.5" font-weight="700">Control Plane &amp; Reviewer UX</text>
+          <text x="172" y="191" fill="var(--muted-foreground)" font-size="11">Authenticate · route · start run · reviewer queue</text>
+          <text x="470" y="170" fill="var(--c-build)" font-size="10.5" font-family="var(--font-mono),monospace">in-house web app + BFF</text>
+          <text x="470" y="187" fill="var(--c-build)" font-size="10.5" font-family="var(--font-mono),monospace">org SSO · server routes</text>
+          <rect x="700" y="165" width="64" height="20" fill="none" stroke="var(--c-build)"/><text x="732" y="179" text-anchor="middle" fill="var(--c-build)" font-size="9" font-family="var(--font-mono),monospace">BUILD</text>
+
+          <!-- 3 -->
+          <rect x="120" y="230" width="660" height="60" fill="var(--card)" stroke="var(--border)"/><rect x="120" y="230" width="5" height="60" fill="var(--c-hybrid)"/>
+          <circle cx="148" cy="260" r="12" fill="var(--c-hybrid)"/><text x="148" y="264" text-anchor="middle" fill="var(--background)" font-size="12" font-weight="700">3</text>
+          <text x="172" y="256" fill="var(--foreground)" font-size="13.5" font-weight="700">Orchestration Runtime</text>
+          <text x="172" y="275" fill="var(--muted-foreground)" font-size="11">Durable run · owns workflow state · retries · review wait</text>
+          <text x="470" y="254" fill="var(--c-hybrid)" font-size="10.5" font-family="var(--font-mono),monospace">own contract on managed runtime</text>
+          <text x="470" y="271" fill="var(--c-hybrid)" font-size="10.5" font-family="var(--font-mono),monospace">platform datastore for run state</text>
+          <rect x="700" y="249" width="64" height="20" fill="none" stroke="var(--c-hybrid)"/><text x="732" y="263" text-anchor="middle" fill="var(--c-hybrid)" font-size="9" font-family="var(--font-mono),monospace">OWN</text>
+
+          <!-- 4 -->
+          <rect x="120" y="314" width="660" height="60" fill="var(--card)" stroke="var(--c-buy)" stroke-opacity="0.5"/><rect x="120" y="314" width="5" height="60" fill="var(--c-hybrid)"/>
+          <circle cx="148" cy="344" r="12" fill="var(--c-hybrid)"/><text x="148" y="348" text-anchor="middle" fill="var(--background)" font-size="12" font-weight="700">4</text>
+          <text x="172" y="340" fill="var(--foreground)" font-size="13.5" font-weight="700">Agent Execution</text>
+          <text x="172" y="359" fill="var(--muted-foreground)" font-size="11">Plan + write the change → RunResult{PRRef}</text>
+          <text x="470" y="338" fill="var(--c-hybrid)" font-size="10.5" font-family="var(--font-mono),monospace">solve() → Cursor · Anthropic</text>
+          <text x="470" y="355" fill="var(--c-hybrid)" font-size="10.5" font-family="var(--font-mono),monospace">· Devin · OSS fallback</text>
+          <rect x="698" y="333" width="68" height="20" fill="none" stroke="var(--c-hybrid)"/><text x="732" y="347" text-anchor="middle" fill="var(--c-hybrid)" font-size="8.5" font-family="var(--font-mono),monospace">HYBRID</text>
+
+          <!-- 5 -->
+          <rect x="120" y="398" width="660" height="60" fill="var(--card)" stroke="var(--c-buy)" stroke-opacity="0.5"/><rect x="120" y="398" width="5" height="60" fill="var(--c-bundled)"/>
+          <circle cx="148" cy="428" r="12" fill="var(--c-bundled)"/><text x="148" y="432" text-anchor="middle" fill="var(--background)" font-size="12" font-weight="700">5</text>
+          <text x="172" y="424" fill="var(--foreground)" font-size="13.5" font-weight="700">Execution Sandbox</text>
+          <text x="172" y="443" fill="var(--muted-foreground)" font-size="11">Isolated, ephemeral workspace runs the agent's code</text>
+          <text x="470" y="422" fill="var(--c-bundled)" font-size="10.5" font-family="var(--font-mono),monospace">managed container (bundled)</text>
+          <text x="470" y="439" fill="var(--c-bundled)" font-size="10.5" font-family="var(--font-mono),monospace">E2B/Daytona if self-host</text>
+          <rect x="690" y="417" width="76" height="20" fill="none" stroke="var(--c-bundled)"/><text x="728" y="431" text-anchor="middle" fill="var(--c-bundled)" font-size="8.5" font-family="var(--font-mono),monospace">BUNDLED</text>
+
+          <!-- 6 -->
+          <rect x="120" y="482" width="660" height="60" fill="var(--card)" stroke="var(--c-buy)" stroke-opacity="0.5"/><rect x="120" y="482" width="5" height="60" fill="var(--c-bundled)"/>
+          <circle cx="148" cy="512" r="12" fill="var(--c-bundled)"/><text x="148" y="516" text-anchor="middle" fill="var(--background)" font-size="12" font-weight="700">6</text>
+          <text x="172" y="508" fill="var(--foreground)" font-size="13.5" font-weight="700">Model Layer</text>
+          <text x="172" y="527" fill="var(--muted-foreground)" font-size="11">Inference for plan + code (per-agent model)</text>
+          <text x="470" y="506" fill="var(--c-bundled)" font-size="10.5" font-family="var(--font-mono),monospace">model bundled with runtime</text>
+          <text x="470" y="523" fill="var(--c-bundled)" font-size="10.5" font-family="var(--font-mono),monospace">gateway (Portkey/LiteLLM) later</text>
+          <rect x="690" y="501" width="76" height="20" fill="none" stroke="var(--c-bundled)"/><text x="728" y="515" text-anchor="middle" fill="var(--c-bundled)" font-size="8.5" font-family="var(--font-mono),monospace">BUNDLED</text>
+
+          <!-- 7 -->
+          <rect x="120" y="566" width="660" height="60" fill="var(--card)" stroke="var(--c-buy)" stroke-opacity="0.5"/><rect x="120" y="566" width="5" height="60" fill="var(--c-hybrid)"/>
+          <circle cx="148" cy="596" r="12" fill="var(--c-hybrid)"/><text x="148" y="600" text-anchor="middle" fill="var(--background)" font-size="12" font-weight="700">7</text>
+          <text x="172" y="592" fill="var(--foreground)" font-size="13.5" font-weight="700">Tools &amp; Knowledge</text>
+          <text x="172" y="611" fill="var(--muted-foreground)" font-size="11">Fetch org facts without flooding context</text>
+          <text x="470" y="590" fill="var(--c-hybrid)" font-size="10.5" font-family="var(--font-mono),monospace">MCP: code·tracker·cloud·obs</text>
+          <text x="470" y="607" fill="var(--c-hybrid)" font-size="10.5" font-family="var(--font-mono),monospace">+ learned retrieval (Tier-2)</text>
+          <rect x="698" y="585" width="68" height="20" fill="none" stroke="var(--c-hybrid)"/><text x="732" y="599" text-anchor="middle" fill="var(--c-hybrid)" font-size="8.5" font-family="var(--font-mono),monospace">HYBRID</text>
+
+          <!-- 8 -->
+          <rect x="120" y="650" width="660" height="60" fill="var(--card)" stroke="var(--border)"/><rect x="120" y="650" width="5" height="60" fill="var(--c-build)"/>
+          <circle cx="148" cy="680" r="12" fill="var(--c-build)"/><text x="148" y="684" text-anchor="middle" fill="var(--background)" font-size="12" font-weight="700">8</text>
+          <text x="172" y="676" fill="var(--foreground)" font-size="13.5" font-weight="700">Quality &amp; Eval Gates</text>
+          <text x="172" y="695" fill="var(--muted-foreground)" font-size="11">Tests · lint · type · security · build, then eval scoring</text>
+          <text x="470" y="674" fill="var(--c-build)" font-size="10.5" font-family="var(--font-mono),monospace">CI pipeline</text>
+          <text x="470" y="691" fill="var(--c-build)" font-size="10.5" font-family="var(--font-mono),monospace">GateResult + eval suite</text>
+          <rect x="700" y="669" width="64" height="20" fill="none" stroke="var(--c-build)"/><text x="732" y="683" text-anchor="middle" fill="var(--c-build)" font-size="9" font-family="var(--font-mono),monospace">BUILD</text>
+
+          <!-- 9 -->
+          <rect x="120" y="734" width="660" height="60" fill="var(--card)" stroke="var(--border)"/><rect x="120" y="734" width="5" height="60" fill="var(--c-buy)"/>
+          <circle cx="148" cy="764" r="12" fill="var(--c-buy)"/><text x="148" y="768" text-anchor="middle" fill="var(--background)" font-size="12" font-weight="700">9</text>
+          <text x="172" y="760" fill="var(--foreground)" font-size="13.5" font-weight="700">Integration &amp; Delivery</text>
+          <text x="172" y="779" fill="var(--muted-foreground)" font-size="11">Open PR · update ticket · notify (idempotent)</text>
+          <text x="470" y="758" fill="var(--c-buy)" font-size="10.5" font-family="var(--font-mono),monospace">VCS PR · tracker · chat</text>
+          <text x="470" y="775" fill="var(--c-buy)" font-size="10.5" font-family="var(--font-mono),monospace">thin adapters (SDK/MCP)</text>
+          <rect x="704" y="753" width="60" height="20" fill="none" stroke="var(--c-buy)"/><text x="734" y="767" text-anchor="middle" fill="var(--c-buy)" font-size="9" font-family="var(--font-mono),monospace">BUY</text>
+
+          <!-- 10 human -->
+          <rect x="120" y="818" width="660" height="60" fill="var(--card)" stroke="var(--c-human)" stroke-opacity="0.5"/><rect x="120" y="818" width="5" height="60" fill="var(--c-human)"/>
+          <circle cx="148" cy="848" r="12" fill="var(--c-human)"/><text x="148" y="853" text-anchor="middle" fill="var(--background)" font-size="12" font-weight="700">★</text>
+          <text x="172" y="844" fill="var(--foreground)" font-size="13.5" font-weight="700">Human Review &amp; Merge</text>
+          <text x="172" y="863" fill="var(--muted-foreground)" font-size="11">Approve / request changes / reject — the final word</text>
+          <text x="470" y="842" fill="var(--c-human)" font-size="10.5" font-family="var(--font-mono),monospace">reviewer in control plane / VCS</text>
+          <text x="470" y="859" fill="var(--c-human)" font-size="10.5" font-family="var(--font-mono),monospace">human merge · signal to run</text>
+          <rect x="700" y="837" width="64" height="20" fill="none" stroke="var(--c-human)"/><text x="732" y="851" text-anchor="middle" fill="var(--c-human)" font-size="9" font-family="var(--font-mono),monospace">HUMAN</text>
+
+          <!-- terminal -->
+          <rect x="120" y="902" width="660" height="38" fill="var(--c-buy)" fill-opacity="0.08" stroke="var(--c-buy)" stroke-opacity="0.45"/>
+          <text x="450" y="926" text-anchor="middle" fill="var(--c-buy)" font-size="11.5" font-weight="700">✓ Approved → merged · full run recorded to the audit trail</text>
+
+          <rect x="104" y="958" width="690" height="32" fill="none" stroke="var(--border)" stroke-dasharray="5 6"/>
+          <text x="450" y="978" text-anchor="middle" fill="var(--muted-foreground)" font-size="10.5" font-family="var(--font-mono),monospace" letter-spacing="0.8">ACROSS EVERY STEP · identity · least-privilege per-run creds · full audit · per-team cost &amp; quotas</text>
+        </g>
+      </svg>
+      <div class="legend">
+        <span><span class="sw" style="background:var(--c-build)"></span> Build (the moat)</span>
+        <span><span class="sw" style="background:var(--c-buy)"></span> Buy / adapt</span>
+        <span><span class="sw" style="background:var(--c-bundled)"></span> Bundled with the agent</span>
+        <span><span class="sw" style="background:var(--c-hybrid)"></span> Own contract / hybrid</span>
+        <span><span class="sw" style="background:var(--c-human)"></span> Human</span>
+      </div>
+    </div>
+    <div class="grid g3">
+      <div class="card"><div class="ct">Builds · the moat</div><h4>4 stations</h4><p>Intake, control plane / reviewer UX, quality &amp; eval gates. Org-specific, durable, the instruments for every swap.</p></div>
+      <div class="card"><div class="ct">Buys / bundles</div><h4>5 stations</h4><p>Agent, runtime, sandbox + model (bundled with the agent), delivery adapters, live tools (MCP). Replaced on the market's cadence.</p></div>
+      <div class="card"><div class="ct">Human · the gate</div><h4>1 station</h4><p>Review and merge. The factory prepares and routes; a human always decides. Request-changes loops back to the agent.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SWAP -->
+<section id="swap">
+  <div class="wrap">
+    <p class="kicker">05 · The core idea</p>
+    <h2 class="sec">The swap plane: one contract, many vendors, decided by data</h2>
+    <p class="lead">Layers 4 to 7 are where the AI world moves fastest, so they get the strongest contract discipline. The agent-execution contract (<code>solve(WorkItem, RepoRef) → RunResult</code>) lets you run several implementers behind one interface: route by work-item class, run them head-to-head on the same ticket, and let the eval harness pick the winner. A new frontier agent ships on a Tuesday; you add an adapter and A/B it on Wednesday. No re-architecture, ever.</p>
+    <div class="grid g3">
+      <div class="card"><div class="ct">Route</div><h4>By work-item class</h4><p>Bug fix, multi-file feature, refactor, flag removal. Each class routes to the implementer that wins on it. One factory, many specialists.</p></div>
+      <div class="card"><div class="ct">Race</div><h4>Head-to-head</h4><p>On high-value tickets, run two implementers on the same WorkItem and keep the better PR. A configuration toggle, not a project.</p></div>
+      <div class="card"><div class="ct">Replace</div><h4>Without re-architecture</h4><p>When a better agent ships, write one adapter, run it against the eval suite, promote it if it wins. The line never stops.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- BUILD/BUY -->
+<section id="buildbuy">
+  <div class="wrap">
+    <p class="kicker">06 · The strategy</p>
+    <h2 class="sec">Build the moat, buy the commodity, contract everything</h2>
+    <p class="lead">The build-vs-buy decision is made per layer, on one rule: build what is org-specific and durable; buy what is commodity and fast-moving; put a contract on every boundary so any decision is reversible. You are not out-building the frontier agent vendors on the implementer, and you should not try. You are the only one who can build org-aware intake, knowledge, reviewer experience, and governance.</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Layer</th><th>Decision</th><th>Why this side of the line</th></tr></thead>
+        <tbody>
+          <tr><td class="layer">Intake &amp; Work Spec</td><td><span class="chip build">Build</span></td><td>Scope policy, risk classification, and idempotency are org-specific and rarely change. Durable moat, not commodity.</td></tr>
+          <tr><td class="layer">Control Plane / Reviewer UX</td><td><span class="chip build">Build</span></td><td>The reviewer experience is a competitive surface and must live inside org identity and existing tooling. No vendor owns your reviewers.</td></tr>
+          <tr><td class="layer">Orchestration Runtime</td><td><span class="chip hybrid">Own contract</span></td><td>Durable execution is solved, but a full workflow engine is overkill for a line that is mostly idle human-review waits. Own a thin orchestration contract; run it on a managed agent runtime. A durable-workflow engine stays a drop-in replacement behind the same contract if the workflow ever outgrows it.</td></tr>
+          <tr><td class="layer">Agent Execution</td><td><span class="chip hybrid">Hybrid</span></td><td>The fastest-churning layer. Run multiple vendor agents behind one contract; keep an open-source fallback for independence and worst-case portability.</td></tr>
+          <tr><td class="layer">Execution Sandbox</td><td><span class="chip bundled">Bundled</span></td><td>Managed agents already run in isolated cloud containers, so the sandbox arrives with the layer-4 choice. Procure a standalone sandbox only for the self-hosted open-source implementer.</td></tr>
+          <tr><td class="layer">Model Layer</td><td><span class="chip bundled">Bundled</span></td><td>The agent runtime brings its model, so nothing is needed on day one. Add a governed gateway only when cross-provider routing and per-team cost attribution become a concrete need.</td></tr>
+          <tr><td class="layer">Tools &amp; Knowledge</td><td><span class="chip hybrid">Hybrid</span></td><td>Adopt MCP servers where official ones exist (live sources). Build the org-specific learned-knowledge retrieval that no vendor can supply.</td></tr>
+          <tr><td class="layer">Quality &amp; Eval Gates</td><td><span class="chip build">Build</span></td><td>Your gates and your eval suite over real tickets are how you decide every other swap. This is the instrument panel; it must be yours.</td></tr>
+          <tr><td class="layer">Integration &amp; Delivery</td><td><span class="chip buy">Buy/adapt</span></td><td>VCS, tracker, and chat already expose first-class APIs and connectors. Thin idempotent adapters, no bespoke scrapers.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="call">
+      <h4>Why not a single vendor end-to-end?</h4>
+      <p>A single-vendor factory (one platform running the whole line) is the easiest path and a real option, but it fails the two requirements ranked highest: <span class="em">independence</span> and <span class="em">easy to change layers</span>. You inherit their orchestration, their reviewer UX, their model choices, and their roadmap. When a better agent ships elsewhere, you cannot adopt it without leaving the platform. Buying a vendor agent is correct; buying a vendor <em>factory</em> trades away the optionality that is the whole point.</p>
+    </div>
+    <div class="call warn">
+      <h4>Why not pure in-house?</h4>
+      <p>A capable org can build this. But pure in-house means owning the implementer, the sandbox, and the model plumbing, which are exactly the parts the market improves faster than any internal team can. Pure build fails "best-of-breed as the world shifts." The right amount of build is the moat and the contracts, not the commodity.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VENDORS -->
+<section id="vendors">
+  <div class="wrap">
+    <p class="kicker">07 · Landscape</p>
+    <h2 class="sec">The current best-of-breed per swap-plane layer</h2>
+    <p class="lead">A snapshot of credible options as of mid-2026, to populate the swap plane. The point is not to pick forever; it is to start with strong defaults behind contracts and re-evaluate every quarter against the eval harness. Capability claims are vendor-stated unless noted; treat them as a shortlist to validate, not as verified benchmarks.</p>
+    <h3 class="sub">Agent execution (the implementer)</h3>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Option</th><th>Shape</th><th>Hosting</th><th>Why it earns a slot</th></tr></thead>
+        <tbody>
+          <tr><td class="layer">Cursor (background / fleet)</td><td>Cloud background agents, parallel fleet</td><td>SaaS</td><td>Strong IDE-grade agent; runs many tasks in parallel. Good default for interactive-to-autonomous continuity.</td></tr>
+          <tr><td class="layer">Anthropic Managed Agents</td><td>API-first hosted agent harness</td><td>Managed cloud</td><td>Stable API/SDK, vaults, sessions, isolated containers, observability. Clean fit behind the solve() contract.</td></tr>
+          <tr><td class="layer">Devin (Cognition)</td><td>Autonomous SWE agent</td><td>SaaS / enterprise</td><td>Mature autonomous-PR product with enterprise posture. Worth a slot for specific work-item classes; validate yield.</td></tr>
+          <tr><td class="layer">Factory (Droids)</td><td>Agent-native dev platform</td><td>SaaS / enterprise</td><td>Enterprise-positioned, well-funded. Candidate for benchmarking on the same eval suite.</td></tr>
+          <tr><td class="layer">OpenHands</td><td>Open-source agent</td><td>Self-host</td><td>The independence insurance: a self-hostable fallback so the factory never has zero implementers.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3 class="sub">Supporting layers — mostly bundled, not separate buys</h3>
+    <p style="font-size:1rem;color:var(--muted-foreground);max-width:48rem">Once layer 4 is a managed agent, three concerns that look like infrastructure are already handled or can wait. Standing them up as separate platforms on day one would be over-engineering.</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Concern</th><th>Posture</th><th>Reasoning</th></tr></thead>
+        <tbody>
+          <tr><td class="layer">Execution sandbox</td><td><span class="chip bundled">Bundled</span></td><td>Managed agents run each session in an isolated container, pre-loaded with common languages and DB clients. You inherit isolation from the layer-4 choice. E2B / Daytona / Modal — or self-hosted sandbox mode — enter only if you add the self-hosted implementer or have data that cannot leave your network.</td></tr>
+          <tr><td class="layer">Model layer</td><td><span class="chip bundled">Bundled</span></td><td>The agent runtime ships its model, so nothing is required to start. A governed gateway (Portkey, LiteLLM, OpenRouter) is a deferred add for cross-provider routing and per-team cost attribution — adopt it when that need is real.</td></tr>
+          <tr><td class="layer">Orchestration runtime</td><td><span class="chip hybrid">Decided</span></td><td>Run on a managed agent runtime; own the thin orchestration contract. A durable-workflow engine (Temporal Cloud, AWS Bedrock AgentCore) stays a drop-in replacement behind that contract if the workflow ever outgrows it. Not a separate purchase.</td></tr>
+          <tr><td class="layer">Tools / interop</td><td><span class="chip hybrid">Adopt MCP</span></td><td>Use official MCP servers for live sources. MCP is consolidating as the vendor-neutral tool standard and is the seam that keeps layer 7 portable across agents.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="src">Vendor names are mid-2026 positioning, included so the options are concrete. The eval harness, not this table, decides what gets adopted and when.</p>
+  </div>
+</section>
+
+<!-- RECOMMENDATION -->
+<section id="recommendation">
+  <div class="wrap">
+    <p class="kicker">08 · Recommendation</p>
+    <h2 class="sec">An owned control plane over a multi-vendor swap plane</h2>
+    <p class="lead">Build a thin, durable control plane that the org owns end to end: intake and policy, the reviewer experience inside org identity, the gates, the eval harness, and the knowledge layer. Run it on a managed cloud runtime. Treat the implementer, the sandbox, and the models as best-of-breed plug-ins behind contracts, run several at once, and let measured yield decide which wins each work-item class. Buy the commodity, build the moat, and keep every boundary swappable.</p>
+    <div class="grid g2">
+      <div class="card"><div class="ct">The org builds · the moat</div><h4>Control plane + knowledge + gates</h4><p>Intake and scope policy, the authenticated reviewer surface, the quality + eval gates, and retrieval over org systems. Durable, org-specific, and the instruments by which every other choice is made. They do not churn with the model of the month.</p></div>
+      <div class="card"><div class="ct">The org buys / bundles · the commodity</div><h4>Agents + sandbox + models + runtime</h4><p>Multiple vendor implementers behind one contract, a managed agent runtime, sandbox + model bundled with the agent, delivery adapters, and live tools over MCP. Cloud-native, scalable, replaced on the market's cadence.</p></div>
+    </div>
+    <div class="call">
+      <h4>Decision: a managed runtime, not a self-hosted workflow cluster</h4>
+      <p>The orchestration runtime is the one layer most tempting to over-build. Run it on a managed agent runtime rather than standing up a self-hosted durable-workflow cluster. The line is mostly idle human-review waits, and that wait is better modeled as owned persisted state with scheduled re-checks than as a durable workflow timer. The managed runtime covers the bounded active execution — plan, code, gate — with hosted sessions, isolated containers, retries, and observability. Crucially, the org still owns the orchestration <em>contract</em>, so a durable-workflow engine remains a drop-in replacement behind the same interface if the workflow ever outgrows this. The escape hatch is the point: lean now, swap later, no re-architecture.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SCORECARD -->
+<section id="scorecard">
+  <div class="wrap">
+    <p class="kicker">09 · Decision</p>
+    <h2 class="sec">Scorecard against the requirements</h2>
+    <p class="lead">Three archetypes scored against the requirements set for this platform. Scores are a structured judgement to frame the decision, not a measurement. The contract-first hybrid wins precisely on the two axes ranked highest: independence and ease of changing layers.</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th style="width:34%">Requirement</th><th>Single vendor factory</th><th>Pure in-house build</th><th>Contract-first hybrid</th></tr></thead>
+        <tbody>
+          <tr><td class="layer">Org-wide &amp; compliant</td><td><span class="score"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></td><td><span class="score"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></td><td><span class="score"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td></tr>
+          <tr><td class="layer">Scalable (cloud, multi-team)</td><td><span class="score"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="score"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></td><td><span class="score"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td></tr>
+          <tr><td class="layer">Professional (SLA, obs, on-call)</td><td><span class="score"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></td><td><span class="score"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></td><td><span class="score"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></td></tr>
+          <tr><td class="layer">Independent (no lock-in)</td><td><span class="score"><i class="on"></i><i></i><i></i><i></i><i></i></span></td><td><span class="score"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="score"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td></tr>
+          <tr><td class="layer">Easy to change layers</td><td><span class="score"><i class="on"></i><i></i><i></i><i></i><i></i></span></td><td><span class="score"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></td><td><span class="score"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td></tr>
+          <tr><td class="layer">Cloud-native</td><td><span class="score"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td><span class="score"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></td><td><span class="score"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td></tr>
+          <tr><td class="layer">Vendor-or-in-house per layer</td><td><span class="score"><i class="on"></i><i></i><i></i><i></i><i></i></span></td><td><span class="score"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span></td><td><span class="score"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td></tr>
+          <tr><td class="layer">Best-of-breed (not cheapest)</td><td><span class="score"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></td><td><span class="score"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></td><td><span class="score"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="src">Single-vendor wins on time-to-value but structurally loses on independence and changeability. Pure in-house wins on control but cannot stay best-of-breed across the fast-churning layers. The contract-first hybrid is the only archetype that scores well on all eight, because it buys the commodity, builds the moat, and makes every boundary reversible.</p>
+  </div>
+</section>
+
+<!-- ROLLOUT -->
+<section id="rollout">
+  <div class="wrap">
+    <p class="kicker">10 · Sequencing</p>
+    <h2 class="sec">Rollout, gated by evidence not calendar</h2>
+    <p class="lead">Each phase ends in a gate that must be met before the next begins. Phases are illustrative sequencing, not committed dates; durations and capacity are intentionally left blank for planning.</p>
+    <div>
+      <div class="phase"><div class="pl">Phase 0<span class="gate">Gate · contracts frozen, eval suite runs</span></div><div><h4>Contracts &amp; the instrument panel</h4><ul><li>Define and version the four swap-plane contracts: WorkItem, solve(), Sandbox, model gateway endpoint.</li><li>Stand up the eval harness over a labelled set of real tickets, by work-item class. The authority for every later swap.</li><li>Pick a managed runtime and a sandbox; wire one implementer behind the solve() contract end to end on one repo.</li></ul></div></div>
+      <div class="phase"><div class="pl">Phase 1<span class="gate">Gate · one team, real merge-rate data by class</span></div><div><h4>First team on the paved road</h4><ul><li>One team runs real work items through the full line with authenticated review and human merge.</li><li>Two implementers behind the contract, A/B by work-item class on the eval suite.</li><li>Per-run sandbox isolation, least-privilege short-lived credentials, full audit trail demonstrated.</li></ul></div></div>
+      <div class="phase"><div class="pl">Phase 2<span class="gate">Gate · isolation + HA + SLOs validated</span></div><div><h4>Multi-team general availability</h4><ul><li>Onboard teams by namespace + configuration; quotas, rate limits, cost attribution per team.</li><li>Add a third vendor agent and the open-source fallback to prove the swap plane under load.</li><li>Define SLOs and on-call; observability and audit meet the professional bar.</li></ul></div></div>
+      <div class="phase"><div class="pl">Phase 3<span class="gate">Gate · self-service onboarding documented</span></div><div><h4>Org platform</h4><ul><li>Self-service onboarding; golden paths with sensible defaults; per-team policy as configuration.</li><li>Quarterly swap review: re-run the eval suite against new vendors, promote winners by adapter.</li><li>Evaluate (separately, evidence-gated) automated review and rule-based auto-merge for lower-risk repos.</li></ul></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- RISKS -->
+<section id="risks">
+  <div class="wrap">
+    <p class="kicker">11 · Honest risks</p>
+    <h2 class="sec">What could make this the wrong call</h2>
+    <ul class="clean">
+      <li><b>Contract churn.</b> If the swap-plane contracts are wrong, every adapter leaks and the independence promise collapses. Mitigation: keep contracts minimal, version them, and prove them with two real vendors in Phase 1 before committing.</li>
+      <li><b>Bespoke-orchestrator creep.</b> Running orchestration on a managed runtime instead of a workflow engine means the org owns the workflow state machine. If the line grows complex (parallel fan-out, compensation / rollback, replay-for-compliance), that hand-rolled layer becomes the thing a durable-workflow engine would have given for free. Mitigation: keep the orchestration contract minimal so the engine drops in behind it the moment the hand-rolled version strains.</li>
+      <li><b>Integration tax.</b> Multi-vendor means maintaining adapters and a thin control plane forever. This is the price of optionality; it is justified only because changeability is the top requirement. If that ever stops being true, collapse to fewer vendors.</li>
+      <li><b>Agent yield, not orchestration, is the real bottleneck.</b> Public evidence and an honest read of current autonomous-PR merge rates say the implementer is where value is won or lost. If yield stays low across all vendors, a beautifully swappable factory still produces drafts nobody merges. The eval harness exists to catch this early and honestly.</li>
+      <li><b>Review burden.</b> Agent PRs move load onto reviewers. The reviewer experience must be a first-class build, and merge stays human until data justifies otherwise.</li>
+      <li><b>Reuse temptation.</b> An existing in-house solver may already implement much of this loop. It is a useful Phase 0/1 reference and possibly the open-source-fallback implementer behind the contract, but the architecture should not be anchored to it: reuse a part only where it is the best option behind the contract, not because it exists.</li>
+    </ul>
+    <div class="call" style="margin-top:1.8rem">
+      <h4>Sources &amp; evidence base</h4>
+      <p>Landscape inputs gathered mid-2026; vendor pages are positioning, the eval harness is the authority for what an org adopts. Independent studies flagged. Agent platforms: <a href="https://cursor.com">Cursor</a>, <a href="https://platform.claude.com/docs/en/managed-agents/overview">Anthropic Managed Agents</a>, <a href="https://factory.ai">Factory</a>, <a href="https://github.com/All-Hands-AI/OpenHands">OpenHands</a>. Sandboxes: <a href="https://e2b.dev/">E2B</a>, <a href="https://northflank.com/blog/daytona-vs-e2b-ai-code-execution-sandboxes">Daytona vs E2B</a>. Gateways: <a href="https://openrouter.ai/blog/insights/llm-gateway/">OpenRouter</a>, Portkey, LiteLLM. Orchestration: <a href="https://docs.aws.amazon.com/bedrock-agentcore/">AWS Bedrock AgentCore</a>, <a href="https://temporal.io/resources/case-studies/lindy-reliability-observability-ai-agents-temporal-cloud">Temporal for AI agents</a>. Interop: <a href="https://www.cdata.com/blog/2026-year-enterprise-ready-mcp-adoption">MCP adoption</a>. Evaluation: <a href="https://www.swebench.com/">SWE-bench</a>. Independent: <a href="https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/">METR RCT (2025)</a>, <a href="https://arxiv.org/html/2509.14745v1">empirical study of agentic PRs</a>, <a href="https://platformengineering.org/blog/golden-cage-syndrome-why-internal-developer-platforms-fail">why internal platforms fail</a>.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer class="bg-primary text-primary-foreground border-primary border-t">
+<div class="mx-auto grid max-w-7xl gap-10 px-6 py-12 lg:px-8">
+<div>
+<p class="font-sans text-xs font-semibold tracking-[0.22em] uppercase">Jay Nogueira</p>
+<p class="text-primary-foreground/80 mt-4 max-w-2xl font-serif text-lg leading-relaxed">A reference architecture for an org-wide software factory, designed so every layer stays best-of-breed as the AI landscape shifts. Draft for discussion.</p>
+<p class="text-primary-foreground/70 mt-6 font-sans text-xs tracking-[0.14em] uppercase">&copy; 2026 Jay Nogueira. All rights reserved.</p>
+</div>
+</div>
+</footer>
+</div>
+<script>function toggleTheme(){var h=document.documentElement;var d=h.classList.toggle("dark");h.style.colorScheme=d?"dark":"light";try{localStorage.setItem("theme",d?"dark":"light")}catch(e){}}</script>
+</body>
+</html>
