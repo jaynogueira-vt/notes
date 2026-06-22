@@ -1,9 +1,9 @@
 # Jay Nogueira
 
-Personal site: articles, technical docs, proposals, and RFCs on AI-native
-software delivery and harness engineering.
+Personal site: articles, technical docs, proposals, RFCs, and reusable
+AI-agent skills on AI-native software delivery and harness engineering.
 
-Published via GitHub Pages: https://jaynogueira-vt.github.io/articles/
+Published via GitHub Pages: https://jaynogueira-vt.github.io/notes/
 
 ## Structure
 
