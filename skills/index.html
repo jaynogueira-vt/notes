@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Docs, proposals &amp; RFCs — Jay Nogueira</title>
-<meta name="description" content="Architecture proposals, design docs, and RFCs on AI-native software delivery and platform engineering."/>
+<title>Skills — Jay Nogueira</title>
+<meta name="description" content="Reusable AI-agent skills — procedural playbooks for recurring engineering work, scrubbed of internal context and safe to drop into any skill-aware agent."/>
 <meta name="author" content="Jay Nogueira"/>
-<meta property="og:title" content="Docs, proposals &amp; RFCs — Jay Nogueira"/>
-<meta property="og:description" content="Architecture proposals, design docs, and RFCs on AI-native software delivery and platform engineering."/>
+<meta property="og:title" content="Skills — Jay Nogueira"/>
+<meta property="og:description" content="Reusable AI-agent skills — procedural playbooks for recurring engineering work, safe to drop into any skill-aware agent."/>
 <meta property="og:type" content="website"/>
-<meta property="og:url" content="https://jaynogueira-vt.github.io/articles/docs/"/>
+<meta property="og:url" content="https://jaynogueira-vt.github.io/articles/skills/"/>
 <meta property="og:site_name" content="Jay Nogueira"/>
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"/>
 <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)"/>
@@ -26,8 +26,8 @@
 <a class="focus-visible:ring-ring inline-flex min-h-11 items-center font-sans text-sm font-semibold tracking-[0.22em] uppercase focus-visible:ring-2 focus-visible:outline-none" href="../index.html"><span>Jay Nogueira</span></a>
 <div class="flex items-center gap-2">
 <a class="hover:text-foreground text-muted-foreground focus-visible:ring-ring inline-flex min-h-11 shrink-0 items-center px-3 font-sans text-xs font-semibold tracking-[0.12em] uppercase transition-colors focus-visible:ring-2 focus-visible:outline-none" href="../articles/index.html">Articles</a>
-<a class="text-foreground focus-visible:ring-ring inline-flex min-h-11 shrink-0 items-center px-3 font-sans text-xs font-semibold tracking-[0.12em] uppercase focus-visible:ring-2 focus-visible:outline-none" href="index.html" aria-current="page">Docs</a>
-<a class="hover:text-foreground text-muted-foreground focus-visible:ring-ring inline-flex min-h-11 shrink-0 items-center px-3 font-sans text-xs font-semibold tracking-[0.12em] uppercase transition-colors focus-visible:ring-2 focus-visible:outline-none" href="../skills/index.html">Skills</a>
+<a class="hover:text-foreground text-muted-foreground focus-visible:ring-ring inline-flex min-h-11 shrink-0 items-center px-3 font-sans text-xs font-semibold tracking-[0.12em] uppercase transition-colors focus-visible:ring-2 focus-visible:outline-none" href="../docs/index.html">Docs</a>
+<a class="text-foreground focus-visible:ring-ring inline-flex min-h-11 shrink-0 items-center px-3 font-sans text-xs font-semibold tracking-[0.12em] uppercase focus-visible:ring-2 focus-visible:outline-none" href="index.html" aria-current="page">Skills</a>
 <button type="button" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme" class="border-border bg-background text-foreground hover:bg-secondary hover:text-foreground focus-visible:ring-ring relative inline-flex h-11 w-11 items-center justify-center rounded-md border transition-colors focus-visible:ring-2 focus-visible:outline-none"><svg class="h-4 w-4 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><svg class="hidden h-4 w-4 dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></button>
 </div>
 </div>
@@ -35,21 +35,21 @@
 <main id="main-content" class="flex-1" tabindex="-1">
 <section class="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 py-12 sm:px-6 lg:px-8">
 <header class="max-w-4xl">
-<p class="text-muted-foreground font-sans text-xs font-semibold tracking-[0.2em] uppercase">Technical</p>
-<h1 class="font-display mt-4 text-5xl leading-none font-normal md:text-7xl">Docs, proposals &amp; RFCs</h1>
-<p class="text-muted-foreground mt-5 max-w-3xl font-serif text-xl leading-relaxed">Architecture proposals, design docs, and RFCs. Long-horizon decisions, build-vs-buy reasoning, and the trade-offs behind them, written to be read by engineers and decided by leadership.</p>
+<p class="text-muted-foreground font-sans text-xs font-semibold tracking-[0.2em] uppercase">Reusable playbooks</p>
+<h1 class="font-display mt-4 text-5xl leading-none font-normal md:text-7xl">Skills</h1>
+<p class="text-muted-foreground mt-5 max-w-3xl font-serif text-xl leading-relaxed">Procedural playbooks for AI coding agents — the recurring engineering work I'd otherwise re-explain every time. Each one is scrubbed of internal context and written to drop into any skill-aware agent. Methodology over tooling; receipts over hype.</p>
 </header>
 <div class="flex flex-col gap-4">
 
 <article class="border-border hover:bg-secondary/40 relative grid gap-4 border p-5 transition-colors md:grid-cols-[8rem_minmax(0,1fr)]">
 <div class="font-sans text-xs font-semibold tracking-[0.18em] uppercase">
-<p>Proposal</p>
-<p class="text-muted-foreground mt-2">Architecture</p>
-<p class="text-muted-foreground mt-2 font-normal tracking-normal normal-case"><time datetime="2026-06-17T00:00:00+00:00">June 17, 2026</time></p>
+<p>Frontend</p>
+<p class="text-muted-foreground mt-2">Review &amp; audit</p>
+<p class="text-muted-foreground mt-2 font-normal tracking-normal normal-case"><time datetime="2026-06-22T00:00:00+00:00">June 22, 2026</time></p>
 </div>
 <div>
-<h2 class="font-display text-2xl leading-tight font-normal"><a href="software-factory/index.html" class="focus-visible:ring-ring underline-offset-4 after:absolute after:inset-0 hover:underline focus-visible:ring-2 focus-visible:outline-none">The Software Factory, designed for change</a></h2>
-<p class="text-muted-foreground mt-3 font-serif text-base leading-relaxed">An org-wide platform that turns engineering work into reviewed, merge-ready pull requests, architected so every layer is best-of-breed and replaceable as the AI landscape shifts underneath it.</p>
+<h2 class="font-display text-2xl leading-tight font-normal"><a href="ux-ui-design-review/index.html" class="focus-visible:ring-ring underline-offset-4 after:absolute after:inset-0 hover:underline focus-visible:ring-2 focus-visible:outline-none">UX/UI Design Review</a></h2>
+<p class="text-muted-foreground mt-3 font-serif text-base leading-relaxed">A repository-grounded design-review pipeline: capture a UI surface, run a 13-category audit (hierarchy, tokens, WCAG contrast, loading/empty/error, a11y, responsive, metric explainability), and produce a prioritized P0/P1/P2 findings report with concrete patches that reuse the project's own design tokens.</p>
 </div>
 </article>
 
