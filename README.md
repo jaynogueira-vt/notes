@@ -7,11 +7,13 @@ Published via GitHub Pages: https://jaynogueira-vt.github.io/articles/
 
 ## Structure
 
-- `index.html` — landing page (hub linking to the two surfaces below)
+- `index.html` — landing page (hub linking to the three surfaces below)
 - `articles/index.html` — article listing
 - `articles/<slug>/index.html` — one folder per article
 - `docs/index.html` — docs / proposals / RFCs listing
 - `docs/<slug>/index.html` — one folder per doc
+- `skills/index.html` — AI-agent skills listing
+- `skills/<slug>/index.html` — one folder per skill, with the raw `.md` alongside
 - `assets/` — shared design system (CSS tokens, self-hosted fonts)
 - `diagrams/` — article diagrams (SVG)
 
@@ -25,6 +27,16 @@ Published via GitHub Pages: https://jaynogueira-vt.github.io/articles/
 
 1. Create `docs/<slug>/index.html` (copy `docs/software-factory/` as template)
 2. Add a card to `docs/index.html`
+
+## Adding a new skill
+
+1. Create `skills/<slug>/index.html` (copy `skills/ux-ui-design-review/` as template)
+2. Drop the raw skill Markdown in the same folder as `skills/<slug>/<slug>.md`
+   so it's downloadable
+3. Add a card to `skills/index.html`
+4. Scrub the skill of any internal/proprietary context before publishing —
+   personal paths, internal repo/ticket/channel names, client-specific labels.
+   These are public.
 
 ## Design system
 

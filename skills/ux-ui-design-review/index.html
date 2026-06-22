@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" data-scroll-behavior="smooth">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>UX/UI Design Review — Skills — Jay Nogueira</title>
+<meta name="description" content="A repository-grounded design-review skill for AI coding agents: a 13-category UI audit that produces a prioritized P0/P1/P2 findings report with token-faithful patches."/>
+<meta name="author" content="Jay Nogueira"/>
+<meta property="og:title" content="UX/UI Design Review — Jay Nogueira"/>
+<meta property="og:description" content="A 13-category UI audit skill for AI coding agents. Findings over fixes; tokens over invented values; read-only by default."/>
+<meta property="og:type" content="article"/>
+<meta property="og:url" content="https://jaynogueira-vt.github.io/articles/skills/ux-ui-design-review/"/>
+<meta property="og:site_name" content="Jay Nogueira"/>
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"/>
+<meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)"/>
+<link rel="icon" href="../../assets/icon.svg" type="image/svg+xml"/>
+<link rel="stylesheet" href="../../assets/fonts.css"/>
+<link rel="stylesheet" href="../../assets/site.css"/>
+<script>(function(){try{var t=localStorage.getItem("theme");var d=t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(d){document.documentElement.classList.add("dark");document.documentElement.style.colorScheme="dark"}else{document.documentElement.style.colorScheme="light"}}catch(e){}})();</script>
+</head>
+<body class="playfair_display_788cf017-module__UR335q__variable source_serif_4_1dcf62f-module__tdgqBa__variable inter_96c4af0c-module__Y9_Geq__variable antialiased">
+<div class="bg-background text-foreground flex min-h-screen flex-col">
+<a href="#main-content" class="bg-background text-foreground focus-visible:ring-ring sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-3 focus:ring-2 focus:outline-none">Skip to content</a>
+<header class="border-border bg-background sticky top-0 z-50 w-full border-b">
+<div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
+<a class="focus-visible:ring-ring inline-flex min-h-11 items-center font-sans text-sm font-semibold tracking-[0.22em] uppercase focus-visible:ring-2 focus-visible:outline-none" href="../../index.html"><span>Jay Nogueira</span></a>
+<div class="flex items-center gap-2">
+<a class="hover:text-foreground text-muted-foreground focus-visible:ring-ring inline-flex min-h-11 shrink-0 items-center px-3 font-sans text-xs font-semibold tracking-[0.12em] uppercase transition-colors focus-visible:ring-2 focus-visible:outline-none" href="../index.html">Skills</a>
+<button type="button" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme" class="border-border bg-background text-foreground hover:bg-secondary hover:text-foreground focus-visible:ring-ring relative inline-flex h-11 w-11 items-center justify-center rounded-md border transition-colors focus-visible:ring-2 focus-visible:outline-none"><svg class="h-4 w-4 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><svg class="hidden h-4 w-4 dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></button>
+</div>
+</div>
+</header>
+<main id="main-content" class="flex-1" tabindex="-1">
+<div class="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
+<article class="min-w-0 lg:max-w-3xl">
+
+<header class="border-border border-b pb-10">
+<p class="text-muted-foreground font-sans text-xs font-semibold tracking-[0.2em] uppercase">Skill / Frontend / Review &amp; audit</p>
+<h1 class="font-display mt-5 text-4xl leading-tight font-normal sm:text-5xl md:text-6xl">UX/UI Design Review</h1>
+<p class="text-muted-foreground mt-6 font-serif text-xl leading-relaxed">A repository-grounded design-review pipeline for AI coding agents. It captures the current state of a UI surface, audits it against 13 categories, and produces a prioritized findings report with concrete patches that reuse the project&#x27;s own design tokens — never invented values.</p>
+<div class="mt-7 flex flex-wrap gap-3">
+<a href="ux-ui-design-review.md" class="border-border hover:bg-secondary focus-visible:ring-ring inline-flex items-center border px-4 py-2 font-sans text-xs font-semibold tracking-[0.12em] uppercase transition-colors focus-visible:ring-2 focus-visible:outline-none">Get the skill (Markdown)</a>
+</div>
+</header>
+
+<div class="mt-10 space-y-6 font-serif text-lg leading-8 sm:text-xl sm:leading-9">
+
+<h2 id="summary" class="border-border font-display scroll-mt-24 mt-8 border-t pt-8 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">In one paragraph</h2>
+<p>Most UI regressions are cheap to catch at review time and expensive to catch after ship: a hardcoded hex instead of a token, off-grid spacing, a missing empty state, a score column nobody can explain. This skill is the structured pass that catches them. It is deliberately a <em>review</em>, not a redesign — it reads the codebase, learns the project&#x27;s existing design language, and reports deviations from <em>that</em> language rather than imposing an outside aesthetic.</p>
+
+<h2 id="what-it-is" class="border-border font-display scroll-mt-24 mt-8 border-t pt-8 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">What it is</h2>
+<ul class="ml-5 list-disc space-y-2 marker:text-accent">
+<li>A 5-step workflow: establish the project&#x27;s design DNA → capture the surface (page, spec, or PR diff) → run the 13-category checklist → write a prioritized findings report → hand back.</li>
+<li>A 13-category audit checklist: visual hierarchy, typography, spacing &amp; alignment, color &amp; WCAG contrast, design-token consistency, loading/empty/error states, interactions, accessibility, responsive behavior, state consistency, pagination edge cases, copy, and metric explainability.</li>
+<li>An output format that ranks every finding P0 / P1 / P2 with Where, What, Why, and a concrete Fix that uses existing tokens.</li>
+<li>Agent-agnostic: written for any skill-aware AI coding agent; adapt the file-path examples to your repo.</li>
+</ul>
+
+<h2 id="what-it-does" class="border-border font-display scroll-mt-24 mt-8 border-t pt-8 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">What it does</h2>
+<ul class="ml-5 list-disc space-y-2 marker:text-accent">
+<li>Greps the repo for tokens, primitives, and hardcoded hex so findings cite real evidence (file:line), not generic best-practice.</li>
+<li>Reviews a written spec <em>before</em> implementation — its highest-leverage mode — to catch parallel-component invention while the fix is still a one-line edit.</li>
+<li>Flags opaque metrics (composite scores, non-obvious columns) that ship without an explainer tooltip.</li>
+<li>Produces ready-to-apply patches for P0 issues, gated on your approval.</li>
+</ul>
+
+<h2 id="what-it-does-not" class="border-border font-display scroll-mt-24 mt-8 border-t pt-8 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">What it does <em>not</em> do</h2>
+<ul class="ml-5 list-disc space-y-2 marker:text-accent">
+<li>It does not edit code, run formatters, create tickets, commit, or open PRs on its own — it is read-only until you explicitly ask for fixes.</li>
+<li>It does not invent new colors, spacings, or radii. New values get questioned, not silently added.</li>
+<li>It does not import outside conventions — &quot;Stripe does it this way&quot; is not a finding unless your design system already aligns with it.</li>
+<li>It does not replace a correctness/security code review or functional QA — it runs alongside them, covering the visual/UX layer only.</li>
+<li>It does not chase pixel-perfection; it focuses on systemic issues, not every 1–2px offset.</li>
+</ul>
+
+<h2 id="when-to-use" class="border-border font-display scroll-mt-24 mt-8 border-t pt-8 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">When to reach for it</h2>
+<p>Any UI feature request, &quot;review this screen&quot;, &quot;does this look right?&quot;, &quot;match the design system&quot;, a PR that touches components/CSS/Tailwind, or the end of a planning cycle that produces UI. Run it on the spec before implementation, then again on the implementation before the PR.</p>
+
+<h2 id="the-13-categories" class="border-border font-display scroll-mt-24 mt-8 border-t pt-8 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">The 13 audit categories</h2>
+<ol class="ml-5 list-decimal space-y-2 marker:text-muted-foreground marker:font-sans">
+<li><strong class="font-sans font-semibold">Visual hierarchy</strong> — one dominant primary action, exactly one h1, consistent elevation.</li>
+<li><strong class="font-sans font-semibold">Typography</strong> — match the existing type scale; tabular numerals in comparison columns; purposeful weight.</li>
+<li><strong class="font-sans font-semibold">Spacing &amp; alignment</strong> — on-grid increments, consistent panel padding, deliberate vertical rhythm.</li>
+<li><strong class="font-sans font-semibold">Color &amp; contrast</strong> — WCAG AA, no hardcoded hex, one token per status, color never the sole signal.</li>
+<li><strong class="font-sans font-semibold">Design-token consistency</strong> — every value resolves to a token; no near-duplicate tokens.</li>
+<li><strong class="font-sans font-semibold">Loading / empty / error trinity</strong> — every async region has a matching skeleton, an explicit empty state, and an error state with retry.</li>
+<li><strong class="font-sans font-semibold">Interactions</strong> — visible affordance states, in-flight disabling, blur-time validation, reduced-motion support.</li>
+<li><strong class="font-sans font-semibold">Accessibility</strong> — keyboard reachable, visible focus ring, labelled fields and icon buttons, sequential headings.</li>
+<li><strong class="font-sans font-semibold">Responsive behavior</strong> — desktop, tablet, and mobile render without overflow, or degrade gracefully by design.</li>
+<li><strong class="font-sans font-semibold">State consistency</strong> — the same backend concept shows the same value everywhere; buttons reflect legal actions.</li>
+<li><strong class="font-sans font-semibold">Pagination edge cases</strong> — first/last/middle pages, clamped overflow, visible totals, distinct empty-filter state.</li>
+<li><strong class="font-sans font-semibold">Copy &amp; microcopy</strong> — single language, sentence case, actionable error messages.</li>
+<li><strong class="font-sans font-semibold">Metric explainability</strong> — every composite score, opaque column, and non-trivial badge carries a concise tooltip that stays in sync with the source of truth.</li>
+</ol>
+
+<h2 id="get-it" class="border-border font-display scroll-mt-24 mt-8 border-t pt-8 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">Get it</h2>
+<p>The full skill — workflow, the complete checklist with per-item criteria, the findings-report template, anti-patterns, and pitfalls — is a single Markdown file. Drop it into your agent&#x27;s skills directory and adapt the file-path examples to your repo layout.</p>
+<p><a href="ux-ui-design-review.md" class="text-accent underline-offset-4 hover:underline">Download ux-ui-design-review.md &rarr;</a></p>
+
+</div>
+</article>
+</div>
+</main>
+<footer class="bg-primary text-primary-foreground border-primary border-t">
+<div class="mx-auto grid max-w-7xl gap-10 px-6 py-12 lg:px-8">
+<div>
+<p class="font-sans text-xs font-semibold tracking-[0.22em] uppercase">Jay Nogueira</p>
+<p class="text-primary-foreground/80 mt-4 max-w-2xl font-serif text-lg leading-relaxed">Notes on AI-native software delivery, harness engineering, and receipt-backed decisions.</p>
+<p class="text-primary-foreground/70 mt-6 font-sans text-xs tracking-[0.14em] uppercase">&copy; 2026 Jay Nogueira. All rights reserved.</p>
+</div>
+</div>
+</footer>
+</div>
+<script>function toggleTheme(){var h=document.documentElement;var d=h.classList.toggle("dark");h.style.colorScheme=d?"dark":"light";try{localStorage.setItem("theme",d?"dark":"light")}catch(e){}}</script>
+</body>
+</html>
