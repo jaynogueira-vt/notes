@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" data-scroll-behavior="smooth">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Incident Post-mortem — Skills — Jay Nogueira</title>
+<meta name="description" content="An evidence-first incident post-mortem skill for AI coding agents: verify every claim against a durable artifact, write a real 5 Whys, and publish a record that stays true a year later."/>
+<meta name="author" content="Jay Nogueira"/>
+<meta property="og:title" content="Incident Post-mortem — Jay Nogueira"/>
+<meta property="og:description" content="Evidence over transcript; a real 5 Whys; exact numbers; no blame, no meta-narration. A post-mortem skill for AI coding agents."/>
+<meta property="og:type" content="article"/>
+<meta property="og:url" content="https://jaynogueira-vt.github.io/notes/skills/incident-postmortem/"/>
+<meta property="og:site_name" content="Jay Nogueira"/>
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"/>
+<meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)"/>
+<link rel="icon" href="../../assets/icon.svg" type="image/svg+xml"/>
+<link rel="stylesheet" href="../../assets/fonts.css"/>
+<link rel="stylesheet" href="../../assets/site.css"/>
+<script>(function(){try{var t=localStorage.getItem("theme");var d=t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(d){document.documentElement.classList.add("dark");document.documentElement.style.colorScheme="dark"}else{document.documentElement.style.colorScheme="light"}}catch(e){}})();</script>
+</head>
+<body class="playfair_display_788cf017-module__UR335q__variable source_serif_4_1dcf62f-module__tdgqBa__variable inter_96c4af0c-module__Y9_Geq__variable antialiased">
+<div class="bg-background text-foreground flex min-h-screen flex-col">
+<a href="#main-content" class="bg-background text-foreground focus-visible:ring-ring sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-3 focus:ring-2 focus:outline-none">Skip to content</a>
+<header class="border-border bg-background sticky top-0 z-50 w-full border-b">
+<div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
+<a class="focus-visible:ring-ring inline-flex min-h-11 items-center font-sans text-sm font-semibold tracking-[0.22em] uppercase focus-visible:ring-2 focus-visible:outline-none" href="../../index.html"><span>Jay Nogueira</span></a>
+<div class="flex items-center gap-2">
+<a class="hover:text-foreground text-muted-foreground focus-visible:ring-ring inline-flex min-h-11 shrink-0 items-center px-3 font-sans text-xs font-semibold tracking-[0.12em] uppercase transition-colors focus-visible:ring-2 focus-visible:outline-none" href="../../articles/index.html">Articles</a>
+<a class="hover:text-foreground text-muted-foreground focus-visible:ring-ring inline-flex min-h-11 shrink-0 items-center px-3 font-sans text-xs font-semibold tracking-[0.12em] uppercase transition-colors focus-visible:ring-2 focus-visible:outline-none" href="../../docs/index.html">Docs</a>
+<a class="text-foreground focus-visible:ring-ring inline-flex min-h-11 shrink-0 items-center px-3 font-sans text-xs font-semibold tracking-[0.12em] uppercase focus-visible:ring-2 focus-visible:outline-none" href="../../skills/index.html" aria-current="true">Skills</a>
+<button type="button" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme" class="border-border bg-background text-foreground hover:bg-secondary hover:text-foreground focus-visible:ring-ring relative inline-flex h-11 w-11 items-center justify-center rounded-md border transition-colors focus-visible:ring-2 focus-visible:outline-none"><svg class="h-4 w-4 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><svg class="hidden h-4 w-4 dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></button>
+</div>
+</div>
+</header>
+<main id="main-content" class="flex-1" tabindex="-1">
+<div class="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
+<article class="min-w-0 lg:max-w-3xl">
+
+<header class="border-border border-b pb-10">
+<p class="text-muted-foreground font-sans text-xs font-semibold tracking-[0.2em] uppercase">Skill / Reliability / Post-mortems</p>
+<h1 class="font-display mt-5 text-4xl leading-tight font-normal sm:text-5xl md:text-6xl">Incident Post-mortem</h1>
+<p class="text-muted-foreground mt-6 font-serif text-xl leading-relaxed">An evidence-first method for writing an incident post-mortem. It verifies every factual claim against a durable artifact, forces a real 5 Whys instead of prose, and produces a record that still reads true a year later — not a transcript of the war room.</p>
+<div class="mt-7 flex flex-wrap gap-3">
+<a href="incident-postmortem.md" download="incident-postmortem.md" class="border-border hover:bg-secondary focus-visible:ring-ring inline-flex items-center border px-4 py-2 font-sans text-xs font-semibold tracking-[0.12em] uppercase transition-colors focus-visible:ring-2 focus-visible:outline-none">Get the skill (Markdown)</a>
+</div>
+</header>
+
+<div class="mt-10 space-y-6 font-serif text-lg leading-8 sm:text-xl sm:leading-9">
+
+<h2 id="summary" class="border-border font-display scroll-mt-24 mt-8 border-t pt-8 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">In one paragraph</h2>
+<p>The difference between a trustworthy post-mortem and a plausible-looking one is where its claims come from. Incident channels and call transcripts are full of live hypotheses people voiced while debugging — leads to verify, not facts to publish. This skill enforces one rule above all: <em>every factual claim is backed by a durable artifact — code, a merged PR, a config console, a ticket, production data — and anything that cannot be fact-checked is cut, not softened.</em> Around that core it standardizes the section structure, forces Root Cause to be a real 5 Whys, and strips the blame, approximate numbers, and meta-narration that quietly make reviewers distrust the whole document.</p>
+
+<h2 id="what-it-is" class="border-border font-display scroll-mt-24 mt-8 border-t pt-8 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">What it is</h2>
+<ul class="ml-5 list-disc space-y-2 marker:text-accent">
+<li>An evidence discipline: list every causal claim the transcript suggests, prove each against an artifact, keep only what you proved.</li>
+<li>A canonical structure — Intro, Metadata, Summary, Impact, Root Cause, Action Items, Full COE Required?, and a recommended Evidence section that makes every claim auditable.</li>
+<li>A hard rule that Root Cause is a real 5 Whys (question → because → question, down to the true root cause), with no side-sections.</li>
+<li>A from-scratch build workflow for when an existing post-mortem needs to be redone from evidence rather than reworded.</li>
+<li>Agent-agnostic: written for any skill-aware AI coding agent; adapt the template and publish steps to your own wiki.</li>
+</ul>
+
+<h2 id="what-it-does" class="border-border font-display scroll-mt-24 mt-8 border-t pt-8 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">What it does</h2>
+<ul class="ml-5 list-disc space-y-2 marker:text-accent">
+<li>Separates the trigger (the change that set it off) from the amplifier (what made it worse), and keeps upstream responsibility clear without blame.</li>
+<li>Forces exact, verified numbers from logs or the database — reserving the approximate "~" for sourced external expectations only.</li>
+<li>Requires every ticket, PR, and prior post-mortem to be a described link, never a bare ID.</li>
+<li>Reads the existing doc's review comments as the must-fix list before rewriting.</li>
+<li>Verifies after publishing: re-fetch the stored form, re-run the hygiene checks, confirm every section and link resolves.</li>
+</ul>
+
+<h2 id="what-it-does-not" class="border-border font-display scroll-mt-24 mt-8 border-t pt-8 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">What it does <em>not</em> do</h2>
+<ul class="ml-5 list-disc space-y-2 marker:text-accent">
+<li>It does not let a claim survive on the strength of "the war room thought so" — unbacked claims are cut, not attributed.</li>
+<li>It does not accept a paragraph that describes the cause in place of an actual 5 Whys.</li>
+<li>It does not end a 5 Why at organizational fault — it ends at the technical mechanism.</li>
+<li>It does not tolerate approximate measurements, bare-ID links, mixed timezones, or meta-narration about how the doc was written.</li>
+<li>It does not publish secrets, local paths, or raw logs into a record meant to stay durable.</li>
+</ul>
+
+<h2 id="when-to-use" class="border-border font-display scroll-mt-24 mt-8 border-t pt-8 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">When to reach for it</h2>
+<p>Any time an incident has been mitigated and needs a written record: "write the post-mortem", "document this incident", or "the existing post-mortem is bad, redo it from scratch". Best used within the usual one-business-day window after mitigation, while the evidence is still fresh and the tickets are still open.</p>
+
+<h2 id="the-core" class="border-border font-display scroll-mt-24 mt-8 border-t pt-8 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">The discipline, in six rules</h2>
+<ol class="ml-5 list-decimal space-y-2 marker:text-muted-foreground marker:font-sans">
+<li><strong class="font-sans font-semibold">Evidence over transcript</strong> — a claim is only as good as the artifact that proves it; cut what you cannot check.</li>
+<li><strong class="font-sans font-semibold">A real 5 Whys</strong> — chain symptom to root cause in question/because pairs, no side-sections.</li>
+<li><strong class="font-sans font-semibold">Exact numbers</strong> — measurements from logs or the database; "~" only on a sourced external estimate.</li>
+<li><strong class="font-sans font-semibold">Described links</strong> — every ticket, PR, and prior doc is a hyperlink with human-readable text, never a bare ID.</li>
+<li><strong class="font-sans font-semibold">No blame, no meta</strong> — attribute code ownership factually; never narrate how the doc was written.</li>
+<li><strong class="font-sans font-semibold">Verify after publish</strong> — re-fetch, re-scan, confirm every section and link, guard against version drift.</li>
+</ol>
+
+<h2 id="get-it" class="border-border font-display scroll-mt-24 mt-8 border-t pt-8 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">Get it</h2>
+<p>The full skill — the evidence discipline, the complete section structure, the 5 Whys rule, the from-scratch build workflow, the hygiene rules, and the pitfalls — is a single Markdown file. Drop it into your agent's skills directory and adapt the template and publish steps to your own wiki.</p>
+<p><a href="incident-postmortem.md" download="incident-postmortem.md" class="text-accent underline-offset-4 hover:underline">Download incident-postmortem.md &rarr;</a></p>
+
+</div>
+</article>
+</div>
+</main>
+<footer class="bg-primary text-primary-foreground border-primary border-t">
+<div class="mx-auto grid max-w-7xl gap-10 px-6 py-12 lg:px-8">
+<div>
+<p class="font-sans text-xs font-semibold tracking-[0.22em] uppercase">Jay Nogueira</p>
+<p class="text-primary-foreground/80 mt-4 max-w-2xl font-serif text-lg leading-relaxed">Notes on AI-native software delivery, harness engineering, and receipt-backed decisions.</p>
+<p class="text-primary-foreground/70 mt-6 font-sans text-xs tracking-[0.14em] uppercase">&copy; 2026 Jay Nogueira. All rights reserved.</p>
+</div>
+</div>
+</footer>
+</div>
+<script>function toggleTheme(){var h=document.documentElement;var d=h.classList.toggle("dark");h.style.colorScheme=d?"dark":"light";try{localStorage.setItem("theme",d?"dark":"light")}catch(e){}}</script>
+</body>
+</html>
