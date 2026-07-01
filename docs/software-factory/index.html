@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>The Software Factory, designed for change — Jay Nogueira</title>
+<title>The Software Factory, designed for change · Jay Nogueira</title>
 <meta name="description" content="An org-wide platform that turns engineering work into reviewed, merge-ready pull requests, architected so every layer is best-of-breed and replaceable as the AI landscape shifts underneath it."/>
 <meta name="author" content="Jay Nogueira"/>
 <meta property="og:title" content="The Software Factory, designed for change"/>
@@ -21,7 +21,7 @@
 <link rel="stylesheet" href="../../assets/site.css"/>
 <script>(function(){try{var t=localStorage.getItem("theme");var d=t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(d){document.documentElement.classList.add("dark");document.documentElement.style.colorScheme="dark"}else{document.documentElement.style.colorScheme="light"}}catch(e){}})();</script>
 <style>
-  /* Scoped doc styles — built only on the design-system tokens (light + dark adapt automatically) */
+  /* Scoped doc styles: built only on the design-system tokens (light + dark adapt automatically) */
   .doc{--c-build:#1f6feb;--c-buy:#0f8f86;--c-bundled:#737373;--c-hybrid:#b4690e;--c-human:#c2364b;}
   .dark .doc{--c-build:#7c9cff;--c-buy:#43d6c4;--c-bundled:#a3a3a3;--c-hybrid:#ffb454;--c-human:#ff7a90;}
   .doc{font-family:var(--font-serif),Georgia,serif;color:var(--foreground)}
@@ -403,7 +403,7 @@
           <rect x="120" y="818" width="660" height="60" fill="var(--card)" stroke="var(--c-human)" stroke-opacity="0.5"/><rect x="120" y="818" width="5" height="60" fill="var(--c-human)"/>
           <circle cx="148" cy="848" r="12" fill="var(--c-human)"/><text x="148" y="853" text-anchor="middle" fill="var(--background)" font-size="12" font-weight="700">★</text>
           <text x="172" y="844" fill="var(--foreground)" font-size="13.5" font-weight="700">Human Review &amp; Merge</text>
-          <text x="172" y="863" fill="var(--muted-foreground)" font-size="11">Approve / request changes / reject — the final word</text>
+          <text x="172" y="863" fill="var(--muted-foreground)" font-size="11">Approve / request changes / reject (the final word)</text>
           <text x="470" y="842" fill="var(--c-human)" font-size="10.5" font-family="var(--font-mono),monospace">reviewer in control plane / VCS</text>
           <text x="470" y="859" fill="var(--c-human)" font-size="10.5" font-family="var(--font-mono),monospace">human merge · signal to run</text>
           <rect x="700" y="837" width="64" height="20" fill="none" stroke="var(--c-human)"/><text x="732" y="851" text-anchor="middle" fill="var(--c-human)" font-size="9" font-family="var(--font-mono),monospace">HUMAN</text>
@@ -498,14 +498,14 @@
         </tbody>
       </table>
     </div>
-    <h3 class="sub">Supporting layers — mostly bundled, not separate buys</h3>
+    <h3 class="sub">Supporting layers: mostly bundled, not separate buys</h3>
     <p style="font-size:1rem;color:var(--muted-foreground);max-width:48rem">Once layer 4 is a managed agent, three concerns that look like infrastructure are already handled or can wait. Standing them up as separate platforms on day one would be over-engineering.</p>
     <div class="tbl">
       <table>
         <thead><tr><th>Concern</th><th>Posture</th><th>Reasoning</th></tr></thead>
         <tbody>
-          <tr><td class="layer">Execution sandbox</td><td><span class="chip bundled">Bundled</span></td><td>Managed agents run each session in an isolated container, pre-loaded with common languages and DB clients. Isolation is inherited from the layer-4 choice. E2B / Daytona / Modal — or self-hosted sandbox mode — become relevant only when the self-hosted implementer is added or data cannot leave the organization's network.</td></tr>
-          <tr><td class="layer">Model layer</td><td><span class="chip bundled">Bundled</span></td><td>The agent runtime ships its model, so nothing is required to start. A governed gateway (Portkey, LiteLLM, OpenRouter) is a deferred add for cross-provider routing and per-team cost attribution — adopt it when that need is real.</td></tr>
+          <tr><td class="layer">Execution sandbox</td><td><span class="chip bundled">Bundled</span></td><td>Managed agents run each session in an isolated container, pre-loaded with common languages and DB clients. Isolation is inherited from the layer-4 choice. E2B / Daytona / Modal (or self-hosted sandbox mode) become relevant only when the self-hosted implementer is added or data cannot leave the organization's network.</td></tr>
+          <tr><td class="layer">Model layer</td><td><span class="chip bundled">Bundled</span></td><td>The agent runtime ships its model, so nothing is required to start. A governed gateway (Portkey, LiteLLM, OpenRouter) is a deferred add for cross-provider routing and per-team cost attribution; adopt it when that need is real.</td></tr>
           <tr><td class="layer">Orchestration runtime</td><td><span class="chip hybrid">Decided</span></td><td>Run on a managed agent runtime; own the thin orchestration contract. A durable-workflow engine (Temporal Cloud, AWS Bedrock AgentCore) stays a drop-in replacement behind that contract if the workflow ever outgrows it. Not a separate purchase.</td></tr>
           <tr><td class="layer">Tools / interop</td><td><span class="chip hybrid">Adopt MCP</span></td><td>Use official MCP servers for live sources. MCP is consolidating as the vendor-neutral tool standard and is the seam that keeps layer 7 portable across agents.</td></tr>
         </tbody>
@@ -527,7 +527,7 @@
     </div>
     <div class="call">
       <h4>Decision: a managed runtime, not a self-hosted workflow cluster</h4>
-      <p>The orchestration runtime is the one layer most tempting to over-build. Run it on a managed agent runtime rather than standing up a self-hosted durable-workflow cluster. The line is mostly idle human-review waits, and that wait is better modeled as owned persisted state with scheduled re-checks than as a durable workflow timer. The managed runtime covers the bounded active execution — plan, code, gate — with hosted sessions, isolated containers, retries, and observability. Crucially, the org still owns the orchestration <em>contract</em>, so a durable-workflow engine remains a drop-in replacement behind the same interface if the workflow ever outgrows this. The escape hatch is the point: lean now, swap later, no re-architecture.</p>
+      <p>The orchestration runtime is the one layer most tempting to over-build. Run it on a managed agent runtime rather than standing up a self-hosted durable-workflow cluster. The line is mostly idle human-review waits, and that wait is better modeled as owned persisted state with scheduled re-checks than as a durable workflow timer. The managed runtime covers the bounded active execution (plan, code, gate) with hosted sessions, isolated containers, retries, and observability. Crucially, the org still owns the orchestration <em>contract</em>, so a durable-workflow engine remains a drop-in replacement behind the same interface if the workflow ever outgrows this. The escape hatch is the point: lean now, swap later, no re-architecture.</p>
     </div>
   </div>
 </section>

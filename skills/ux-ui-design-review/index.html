@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>UX/UI Design Review — Skills — Jay Nogueira</title>
+<title>UX/UI Design Review · Skills · Jay Nogueira</title>
 <meta name="description" content="A repository-grounded design-review skill for AI coding agents: a 13-category UI audit that produces a prioritized P0/P1/P2 findings report with token-faithful patches."/>
 <meta name="author" content="Jay Nogueira"/>
-<meta property="og:title" content="UX/UI Design Review — Jay Nogueira"/>
+<meta property="og:title" content="UX/UI Design Review · Jay Nogueira"/>
 <meta property="og:description" content="A 13-category UI audit skill for AI coding agents. Findings over fixes; tokens over invented values; read-only by default."/>
 <meta property="og:type" content="article"/>
 <meta property="og:url" content="https://jaynogueira-vt.github.io/notes/skills/ux-ui-design-review/"/>
@@ -40,7 +40,7 @@
 <header class="border-border border-b pb-10">
 <p class="text-muted-foreground font-sans text-xs font-semibold tracking-[0.2em] uppercase">Skill / Frontend / Review &amp; audit</p>
 <h1 class="font-display mt-5 text-4xl leading-tight font-normal sm:text-5xl md:text-6xl">UX/UI Design Review</h1>
-<p class="text-muted-foreground mt-6 font-serif text-xl leading-relaxed">A repository-grounded design-review pipeline for AI coding agents. It captures the current state of a UI surface, audits it against 13 categories, and produces a prioritized findings report with concrete patches that reuse the project&#x27;s own design tokens — never invented values.</p>
+<p class="text-muted-foreground mt-6 font-serif text-xl leading-relaxed">A repository-grounded design-review pipeline for AI coding agents. It captures the current state of a UI surface, audits it against 13 categories, and produces a prioritized findings report with concrete patches that reuse the project&#x27;s own design tokens, never invented values.</p>
 <div class="mt-8 flex flex-wrap gap-3">
 <a href="ux-ui-design-review.md" download="ux-ui-design-review.md" class="border-border hover:bg-secondary focus-visible:ring-ring inline-flex items-center border px-4 py-2 font-sans text-xs font-semibold tracking-[0.12em] uppercase transition-colors focus-visible:ring-2 focus-visible:outline-none">Get the skill (Markdown)</a>
 </div>
@@ -49,7 +49,7 @@
 <div class="mt-10 space-y-6 font-serif text-lg leading-8 sm:text-xl sm:leading-9">
 
 <h2 id="summary" class="font-display scroll-mt-24 mt-10 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">In one paragraph</h2>
-<p>Most UI regressions are cheap to catch at review time and expensive to catch after ship: a hardcoded hex instead of a token, off-grid spacing, a missing empty state, a score column nobody can explain. This skill is the structured pass that catches them. It is deliberately a <em>review</em>, not a redesign — it reads the codebase, learns the project&#x27;s existing design language, and reports deviations from <em>that</em> language rather than imposing an outside aesthetic.</p>
+<p>Most UI regressions are cheap to catch at review time and expensive to catch after ship: a hardcoded hex instead of a token, off-grid spacing, a missing empty state, a score column nobody can explain. This skill is the structured pass that catches them. It is deliberately a <em>review</em>, not a redesign: it reads the codebase, learns the project&#x27;s existing design language, and reports deviations from <em>that</em> language rather than imposing an outside aesthetic.</p>
 
 <h2 id="what-it-is" class="border-border font-display scroll-mt-24 mt-8 border-t pt-8 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">What it is</h2>
 <ul class="ml-5 list-disc space-y-2 marker:text-accent">
@@ -62,18 +62,18 @@
 <h2 id="what-it-does" class="border-border font-display scroll-mt-24 mt-8 border-t pt-8 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">What it does</h2>
 <ul class="ml-5 list-disc space-y-2 marker:text-accent">
 <li>Greps the repo for tokens, primitives, and hardcoded hex so findings cite real evidence (file:line), not generic best-practice.</li>
-<li>Reviews a written spec <em>before</em> implementation — its highest-leverage mode — to catch parallel-component invention while the fix is still a one-line edit.</li>
+<li>Reviews a written spec <em>before</em> implementation (its highest-leverage mode) to catch parallel-component invention while the fix is still a one-line edit.</li>
 <li>Flags opaque metrics (composite scores, non-obvious columns) that ship without an explainer tooltip.</li>
 <li>Produces ready-to-apply patches for P0 issues, gated on your approval.</li>
 </ul>
 
 <h2 id="what-it-does-not" class="border-border font-display scroll-mt-24 mt-8 border-t pt-8 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">What it does <em>not</em> do</h2>
 <ul class="ml-5 list-disc space-y-2 marker:text-accent">
-<li>It does not edit code, run formatters, create tickets, commit, or open PRs on its own — it is read-only until you explicitly ask for fixes.</li>
+<li>It does not edit code, run formatters, create tickets, commit, or open PRs on its own: it is read-only until you explicitly ask for fixes.</li>
 <li>It does not invent new colors, spacings, or radii. New values get questioned, not silently added.</li>
-<li>It does not import outside conventions — &quot;Stripe does it this way&quot; is not a finding unless your design system already aligns with it.</li>
-<li>It does not replace a correctness/security code review or functional QA — it runs alongside them, covering the visual/UX layer only.</li>
-<li>It does not chase pixel-perfection; it focuses on systemic issues, not every 1–2px offset.</li>
+<li>It does not import outside conventions: &quot;Stripe does it this way&quot; is not a finding unless your design system already aligns with it.</li>
+<li>It does not replace a correctness/security code review or functional QA: it runs alongside them, covering the visual/UX layer only.</li>
+<li>It does not chase pixel-perfection; it focuses on systemic issues, not every 1-2px offset.</li>
 </ul>
 
 <h2 id="when-to-use" class="border-border font-display scroll-mt-24 mt-8 border-t pt-8 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">When to reach for it</h2>
@@ -81,23 +81,23 @@
 
 <h2 id="the-13-categories" class="border-border font-display scroll-mt-24 mt-8 border-t pt-8 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">The 13 audit categories</h2>
 <ol class="ml-5 list-decimal space-y-2 marker:text-muted-foreground marker:font-sans">
-<li><strong class="font-sans font-semibold">Visual hierarchy</strong> — one dominant primary action, exactly one h1, consistent elevation.</li>
-<li><strong class="font-sans font-semibold">Typography</strong> — match the existing type scale; tabular numerals in comparison columns; purposeful weight.</li>
-<li><strong class="font-sans font-semibold">Spacing &amp; alignment</strong> — on-grid increments, consistent panel padding, deliberate vertical rhythm.</li>
-<li><strong class="font-sans font-semibold">Color &amp; contrast</strong> — WCAG AA, no hardcoded hex, one token per status, color never the sole signal.</li>
-<li><strong class="font-sans font-semibold">Design-token consistency</strong> — every value resolves to a token; no near-duplicate tokens.</li>
-<li><strong class="font-sans font-semibold">Loading / empty / error trinity</strong> — every async region has a matching skeleton, an explicit empty state, and an error state with retry.</li>
-<li><strong class="font-sans font-semibold">Interactions</strong> — visible affordance states, in-flight disabling, blur-time validation, reduced-motion support.</li>
-<li><strong class="font-sans font-semibold">Accessibility</strong> — keyboard reachable, visible focus ring, labelled fields and icon buttons, sequential headings.</li>
-<li><strong class="font-sans font-semibold">Responsive behavior</strong> — desktop, tablet, and mobile render without overflow, or degrade gracefully by design.</li>
-<li><strong class="font-sans font-semibold">State consistency</strong> — the same backend concept shows the same value everywhere; buttons reflect legal actions.</li>
-<li><strong class="font-sans font-semibold">Pagination edge cases</strong> — first/last/middle pages, clamped overflow, visible totals, distinct empty-filter state.</li>
-<li><strong class="font-sans font-semibold">Copy &amp; microcopy</strong> — single language, sentence case, actionable error messages.</li>
-<li><strong class="font-sans font-semibold">Metric explainability</strong> — every composite score, opaque column, and non-trivial badge carries a concise tooltip that stays in sync with the source of truth.</li>
+<li><strong class="font-sans font-semibold">Visual hierarchy</strong>: one dominant primary action, exactly one h1, consistent elevation.</li>
+<li><strong class="font-sans font-semibold">Typography</strong>: match the existing type scale; tabular numerals in comparison columns; purposeful weight.</li>
+<li><strong class="font-sans font-semibold">Spacing &amp; alignment</strong>: on-grid increments, consistent panel padding, deliberate vertical rhythm.</li>
+<li><strong class="font-sans font-semibold">Color &amp; contrast</strong>: WCAG AA, no hardcoded hex, one token per status, color never the sole signal.</li>
+<li><strong class="font-sans font-semibold">Design-token consistency</strong>: every value resolves to a token; no near-duplicate tokens.</li>
+<li><strong class="font-sans font-semibold">Loading / empty / error trinity</strong>: every async region has a matching skeleton, an explicit empty state, and an error state with retry.</li>
+<li><strong class="font-sans font-semibold">Interactions</strong>: visible affordance states, in-flight disabling, blur-time validation, reduced-motion support.</li>
+<li><strong class="font-sans font-semibold">Accessibility</strong>: keyboard reachable, visible focus ring, labelled fields and icon buttons, sequential headings.</li>
+<li><strong class="font-sans font-semibold">Responsive behavior</strong>: desktop, tablet, and mobile render without overflow, or degrade gracefully by design.</li>
+<li><strong class="font-sans font-semibold">State consistency</strong>: the same backend concept shows the same value everywhere; buttons reflect legal actions.</li>
+<li><strong class="font-sans font-semibold">Pagination edge cases</strong>: first/last/middle pages, clamped overflow, visible totals, distinct empty-filter state.</li>
+<li><strong class="font-sans font-semibold">Copy &amp; microcopy</strong>: single language, sentence case, actionable error messages.</li>
+<li><strong class="font-sans font-semibold">Metric explainability</strong>: every composite score, opaque column, and non-trivial badge carries a concise tooltip that stays in sync with the source of truth.</li>
 </ol>
 
 <h2 id="get-it" class="border-border font-display scroll-mt-24 mt-8 border-t pt-8 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">Get it</h2>
-<p>The full skill — workflow, the complete checklist with per-item criteria, the findings-report template, anti-patterns, and pitfalls — is a single Markdown file. Drop it into your agent&#x27;s skills directory and adapt the file-path examples to your repo layout.</p>
+<p>The full skill (workflow, the complete checklist with per-item criteria, the findings-report template, anti-patterns, and pitfalls) is a single Markdown file. Drop it into your agent&#x27;s skills directory and adapt the file-path examples to your repo layout.</p>
 <p><a href="ux-ui-design-review.md" download="ux-ui-design-review.md" class="text-accent underline-offset-4 hover:underline">Download ux-ui-design-review.md &rarr;</a></p>
 
 </div>
