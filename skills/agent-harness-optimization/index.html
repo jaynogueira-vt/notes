@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" data-scroll-behavior="smooth">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Agent Harness Optimization · Skills · Jay Nogueira</title>
+<meta name="description" content="An agent harness optimization skill for AI coding agents: converge AGENTS.md, CLAUDE.md, GEMINI.md, Cursor and Copilot rule files on a single source of truth, make the rules blocking in CI, and babysit the PRs to merge with a zero-cost watchdog."/>
+<meta name="author" content="Jay Nogueira"/>
+<meta property="og:title" content="Agent Harness Optimization · Jay Nogueira"/>
+<meta property="og:description" content="One source of truth for every AI coding agent in a repo: SSOT AGENTS.md, thin tool pointers, router pattern for big rule sets, CI enforcement, PR babysitting."/>
+<meta property="og:type" content="article"/>
+<meta property="og:url" content="https://jaynogueira-vt.github.io/notes/skills/agent-harness-optimization/"/>
+<meta property="og:site_name" content="Jay Nogueira"/>
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"/>
+<meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)"/>
+<link rel="icon" href="../../assets/icon.svg" type="image/svg+xml"/>
+<link rel="stylesheet" href="../../assets/fonts.css"/>
+<link rel="stylesheet" href="../../assets/site.css"/>
+<script>(function(){try{var t=localStorage.getItem("theme");var d=t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(d){document.documentElement.classList.add("dark");document.documentElement.style.colorScheme="dark"}else{document.documentElement.style.colorScheme="light"}}catch(e){}})();</script>
+</head>
+<body class="playfair_display_788cf017-module__UR335q__variable source_serif_4_1dcf62f-module__tdgqBa__variable inter_96c4af0c-module__Y9_Geq__variable antialiased">
+<div class="bg-background text-foreground flex min-h-screen flex-col">
+<a href="#main-content" class="bg-background text-foreground focus-visible:ring-ring sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-3 focus:ring-2 focus:outline-none">Skip to content</a>
+<header class="border-border bg-background sticky top-0 z-50 w-full border-b">
+<div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
+<a class="focus-visible:ring-ring inline-flex min-h-11 items-center font-sans text-sm font-semibold tracking-[0.22em] uppercase focus-visible:ring-2 focus-visible:outline-none" href="../../index.html"><span>Jay Nogueira</span></a>
+<div class="flex items-center gap-2">
+<a class="hover:text-foreground text-muted-foreground focus-visible:ring-ring inline-flex min-h-11 shrink-0 items-center px-3 font-sans text-xs font-semibold tracking-[0.12em] uppercase transition-colors focus-visible:ring-2 focus-visible:outline-none" href="../../articles/index.html">Articles</a>
+<a class="hover:text-foreground text-muted-foreground focus-visible:ring-ring inline-flex min-h-11 shrink-0 items-center px-3 font-sans text-xs font-semibold tracking-[0.12em] uppercase transition-colors focus-visible:ring-2 focus-visible:outline-none" href="../../docs/index.html">Docs</a>
+<a class="text-foreground focus-visible:ring-ring inline-flex min-h-11 shrink-0 items-center px-3 font-sans text-xs font-semibold tracking-[0.12em] uppercase focus-visible:ring-2 focus-visible:outline-none" href="../../skills/index.html" aria-current="true">Skills</a>
+<button type="button" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme" class="border-border bg-background text-foreground hover:bg-secondary hover:text-foreground focus-visible:ring-ring relative inline-flex h-11 w-11 items-center justify-center rounded-md border transition-colors focus-visible:ring-2 focus-visible:outline-none"><svg class="h-4 w-4 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><svg class="hidden h-4 w-4 dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></button>
+</div>
+</div>
+</header>
+<main id="main-content" class="flex-1" tabindex="-1">
+<div class="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
+<article class="min-w-0 lg:max-w-3xl">
+
+<header class="border-border border-b pb-10">
+<p class="text-muted-foreground font-sans text-xs font-semibold tracking-[0.2em] uppercase">Skill / Engineering / Agent harness</p>
+<h1 class="font-display mt-5 text-4xl leading-tight font-normal sm:text-5xl md:text-6xl">Agent Harness Optimization</h1>
+<p class="text-muted-foreground mt-6 font-serif text-xl leading-relaxed">A method for converging every AI coding agent in a repository on the same accurate rules: a single-source-of-truth <code>AGENTS.md</code>, thin pointers for every tool-specific file, a router pattern for large rule sets, CI that makes the gates blocking instead of advisory, and a zero-cost watchdog that babysits the PRs to merge.</p>
+<div class="mt-8 flex flex-wrap gap-3">
+<a href="agent-harness-optimization.md" download="agent-harness-optimization.md" class="border-border hover:bg-secondary focus-visible:ring-ring inline-flex items-center border px-4 py-2 font-sans text-xs font-semibold tracking-[0.12em] uppercase transition-colors focus-visible:ring-2 focus-visible:outline-none">Get the skill (Markdown)</a>
+</div>
+</header>
+
+<div class="mt-10 space-y-6 font-serif text-lg leading-8 sm:text-xl sm:leading-9">
+
+<h2 id="summary" class="font-display scroll-mt-24 mt-10 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">In one paragraph</h2>
+<p>Most repos that adopt AI coding agents accumulate the same debt: the rules get copy-pasted into <code>CLAUDE.md</code>, <code>.cursor/rules</code>, and <code>AGENTS.md</code>, then drift apart; half the tools (Copilot, Gemini) never get a rules file at all; the rules contradict the repo's own code (a "Vitest only" rule next to a live Jest config); and the "pre-push gates" the rules mandate are enforced by no CI job. This skill fixes all four with one architecture: <code>AGENTS.md</code> is the single source of truth, every tool file is a three-line pointer to it, rule sets past ~400 lines split into a small router plus focused per-domain files so agents load only what their change touches, and the repo's own gates become CI jobs that fail loudly. The delivery shape is one reviewable PR per repo, then a plain shell watchdog (no tokens burned) that keeps each PR current with its base branch, squash-merges on human approval, and wakes the agent only when something needs actual judgment.</p>
+
+<h2 id="what-it-is" class="border-border font-display scroll-mt-24 mt-8 border-t pt-8 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">What it is</h2>
+<ul class="ml-5 list-disc space-y-2 marker:text-accent">
+<li>A five-point audit per repo: duplication and drift, missing tool coverage, self-contradictions, unenforced gates, stale facts.</li>
+<li>The SSOT-plus-pointers architecture: all rules in <code>AGENTS.md</code>; <code>CLAUDE.md</code>, <code>GEMINI.md</code>, <code>copilot-instructions.md</code>, and the Cursor <code>.mdc</code> reduced to pointers that cannot drift.</li>
+<li>The router pattern for big rule sets: a ~90-line <code>AGENTS.md</code> with a "your change touches X, read Y" table routing to focused files under <code>.agents/rules/</code>.</li>
+<li>CI recipes that make the rules blocking: formatter, build, vet, and test gates that fail loudly, with the quoting and stderr pitfalls already solved.</li>
+<li>Content rules worth baking in everywhere: comment discipline (no ticket IDs in code comments, no overcommenting), the repo's number-one destructive-mistake risk repeated in every pointer, inline reviewer instructions.</li>
+<li>A reusable <code>babysit-prs.sh</code> watchdog: updates branches that fall behind, squash-merges on human approval, exits to wake the agent on failures, conflicts, or new review threads.</li>
+</ul>
+
+<h2 id="what-it-does" class="border-border font-display scroll-mt-24 mt-8 border-t pt-8 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">What it does</h2>
+<ul class="ml-5 list-disc space-y-2 marker:text-accent">
+<li>Works in isolated git worktrees cut fresh from the current origin default, never in your local checkouts.</li>
+<li>Fixes the violations the rules ban in the same PR (deletes the stale test config, runs the formatter), so the harness never contradicts the code it governs.</li>
+<li>Verifies everything locally before pushing: <code>.mdc</code> frontmatter parses, CI YAML parses, the repo's real gates run green in the worktree.</li>
+<li>Cross-applies review feedback: a comment received on one repo's PR that applies to another gets fixed there too, unprompted.</li>
+<li>Ships one PR per repo and drives each to zero unresolved threads, then hands monitoring to the shell watchdog instead of polling with the model.</li>
+</ul>
+
+<h2 id="what-it-does-not" class="border-border font-display scroll-mt-24 mt-8 border-t pt-8 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">What it does <em>not</em> do</h2>
+<ul class="ml-5 list-disc space-y-2 marker:text-accent">
+<li>It does not impose the router on small repos: a 100-160 line <code>AGENTS.md</code> plus pointers is the right size, and splitting it would be ceremony.</li>
+<li>It does not leave rules as advice: a gate that no CI job runs is a suggestion, and suggestions drift.</li>
+<li>It does not merge anything without a human approval on record, and only when merge authority was explicitly delegated.</li>
+<li>It does not trust a stale review state: approval detection uses each human reviewer's latest review and excludes bots.</li>
+<li>It does not burn model tokens watching CI spinners; the watchdog is plain shell and wakes the agent only for judgment calls.</li>
+</ul>
+
+<h2 id="when-to-use" class="border-border font-display scroll-mt-24 mt-8 border-t pt-8 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">When to reach for it</h2>
+<p>"Optimize our AGENTS.md", "standardize agent instructions across repos", "our agent rule files drifted", "add Copilot/Gemini/Cursor coverage", "split this huge AGENTS.md", "make the agent rules blocking in CI". Best fit: a set of repos that adopted AI coding agents organically and now have inconsistent, duplicated, or decorative rule files. Also the shape to copy when setting up the harness in a brand-new repo, so it starts converged instead of drifting into this state.</p>
+
+<h2 id="the-core" class="border-border font-display scroll-mt-24 mt-8 border-t pt-8 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">The discipline, in six rules</h2>
+<ol class="ml-5 list-decimal space-y-2 marker:text-muted-foreground marker:font-sans">
+<li><strong class="font-sans font-semibold">One source of truth</strong>: rules live in <code>AGENTS.md</code>; every tool file is a pointer. Duplicated text is future drift.</li>
+<li><strong class="font-sans font-semibold">Route, don't bloat</strong>: past ~400 lines, a router plus focused rule files beats a monolith that burns the model's context.</li>
+<li><strong class="font-sans font-semibold">Practice what you preach</strong>: fix the repo's own violations of its rules in the same PR, or agents learn the rules are decorative.</li>
+<li><strong class="font-sans font-semibold">Enforce in CI</strong>: every gate the rules claim becomes a CI job that fails loudly; no stderr suppression, no <code>|| true</code>.</li>
+<li><strong class="font-sans font-semibold">Repeat the fatal warning</strong>: the repo's number-one destructive-mistake risk goes in every pointer file, not just the SSOT.</li>
+<li><strong class="font-sans font-semibold">Babysit for free</strong>: once only human approval is missing, a shell watchdog owns the wait; the agent returns only for judgment.</li>
+</ol>
+
+<h2 id="get-it" class="border-border font-display scroll-mt-24 mt-8 border-t pt-8 text-3xl leading-tight font-normal tracking-tight sm:text-4xl">Get it</h2>
+<p>The full skill (the architecture, the audit, the pointer templates, the CI recipes, the content rules, seven pitfalls learned the hard way, the verification checklist, and the complete watchdog script) is a single Markdown file. Drop it into your agent's skills directory and adapt the tracker and announcement steps to your team.</p>
+<p><a href="agent-harness-optimization.md" download="agent-harness-optimization.md" class="text-accent underline-offset-4 hover:underline">Download agent-harness-optimization.md &rarr;</a></p>
+
+</div>
+</article>
+</div>
+</main>
+<footer class="bg-primary text-primary-foreground border-primary border-t">
+<div class="mx-auto grid max-w-7xl gap-10 px-6 py-12 lg:px-8">
+<div>
+<p class="font-sans text-xs font-semibold tracking-[0.22em] uppercase">Jay Nogueira</p>
+<p class="text-primary-foreground/80 mt-4 max-w-2xl font-serif text-lg leading-relaxed">Notes on AI-native software delivery, harness engineering, and receipt-backed decisions.</p>
+<p class="text-primary-foreground/70 mt-6 font-sans text-xs tracking-[0.14em] uppercase">&copy; 2026 Jay Nogueira. All rights reserved.</p>
+</div>
+</div>
+</footer>
+</div>
+<script>function toggleTheme(){var h=document.documentElement;var d=h.classList.toggle("dark");h.style.colorScheme=d?"dark":"light";try{localStorage.setItem("theme",d?"dark":"light")}catch(e){}}</script>
+</body>
+</html>
